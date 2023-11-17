@@ -1,4 +1,5 @@
 import ListingCardGrid from "../components/ListingCardGrid";
+import Header from "../components/Header";
 import { ListingCardData } from "../utils/Interfaces";
 
 function SavedPage() {
@@ -55,7 +56,12 @@ function SavedPage() {
 		},
 	];
 
-	return <ListingCardGrid dataList={dummyData} />;
+	return (
+		<>
+			<Header />
+			<ListingCardGrid dataList={dummyData} />
+		</>
+	);
 }
 
 export default SavedPage;
