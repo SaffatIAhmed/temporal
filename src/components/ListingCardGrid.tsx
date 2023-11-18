@@ -17,8 +17,8 @@ function ListingCardGrid(props: ListingCardGridProps) {
 					gap: "48px 32px",
 				}}
 			>
-				{props.dataList.map(listing => {
-					return <ListingCard data={listing} />;
+				{props.dataList.map((listing, index) => {
+					return <ListingCard key={index} data={listing} />;
 				})}
 			</div>
 		</Container>
