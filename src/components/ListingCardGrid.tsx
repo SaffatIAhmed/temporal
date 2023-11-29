@@ -8,12 +8,12 @@ interface ListingCardGridProps {
 
 function ListingCardGrid(props: ListingCardGridProps) {
 	return (
-		<Container fluid style={{ width: 1024, marginTop: 32 }}>
+		<Container fluid style={{ width: 1168, marginTop: 32 }}>
 			<div
 				style={{
 					display: "grid",
 					gridAutoRows: "1fr",
-					gridTemplateColumns: "320px 320px 320px",
+					gridTemplateColumns: "360px 360px 360px",
 					gap: "48px 32px",
 				}}
 			>
