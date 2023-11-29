@@ -1,7 +1,9 @@
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import "../styles/ListingCard.scss";
+//import "../styles/ListingCard.scss";
+
+
 
 function LoginForm() {
   return (
