@@ -1,8 +1,12 @@
 import LoginForm from "../components/LoginForm";
 
-function LoginPage() {
+interface Props {
+    formWelcomeMsg: string;
+}
+
+function LoginPage({ formWelcomeMsg }: Props) {
     return(
-        <LoginForm />
+        <LoginForm welcomeMsg = {formWelcomeMsg}/>
     );
 }
 

@@ -1,17 +1,19 @@
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-//import "../styles/ListingCard.scss";
+import "../styles/LoginForm.scss";
 
+interface Props {
+  welcomeMsg: string;
+}
 
-
-function LoginForm() {
+function LoginForm({ welcomeMsg }: Props) {
   return (
-    <div className="testing">
-      <Card>
+    <div>
+      <Card className = 'loginCard'>
         <Card.Body>
-          <Card.Title>Welcome!</Card.Title>
-          <Form>
+          <Card.Title>{welcomeMsg}</Card.Title>
+          <Form className='form'>
             <Form.Group>
               <Form.Label>Username</Form.Label>
                 <Form.Control type="username" required />
@@ -20,9 +22,11 @@ function LoginForm() {
               <Form.Label>Password</Form.Label>
                 <Form.Control type="password" required />
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Log In
-            </Button>
+            <div className="submit-btn">
+              <Button variant="primary" type="submit">
+                Log In
+              </Button>
+            </div>
           </Form>
         </Card.Body>
       </Card>

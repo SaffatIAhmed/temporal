@@ -1,6 +1,7 @@
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import "../styles/LoginForm.scss";
 
 function SignupForm() {
   return (
@@ -32,9 +33,11 @@ function SignupForm() {
               <Form.Control type="password" />
             </Form.Group>
           </Form>
-          <Button variant="primary" type="submit">
-            Log In
-          </Button>
+          <div className='submit-btn'>
+            <Button variant="primary" type="submit">
+              Log In
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     </div>
