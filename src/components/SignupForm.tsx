@@ -35,7 +35,7 @@ function SignupForm() {
           </Form>
           <div className='submit-btn'>
             <Button variant="primary" type="submit">
-              Log In
+              Sign up
             </Button>
           </div>
         </Card.Body>

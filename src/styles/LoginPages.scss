@@ -1,18 +1,14 @@
-.loginCard {
-    justify-content: center;
-    align-items: center;
-}
-
-.card-title{
+.page {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.submit-btn {
+.link-btn {
+    margin-top: 30px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 20px 0px 20px 0px;
 }
-
