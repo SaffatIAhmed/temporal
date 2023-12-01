@@ -9,7 +9,7 @@ export const App = ()=> {
 				<Route path="/" element={<Navigate to={"/login"} />} />
 				<Route path="/login" element={<LoginPage formWelcomeMsg = "Welcome User!"/>} />
 				<Route path="/signup" element={<SignupPage />} />
-        <Route path="/modLogin" element={<LoginPage formWelcomeMsg = "Welcome Moderator!"/>} />
+        		<Route path="/modLogin" element={<LoginPage formWelcomeMsg = "Welcome Moderator!"/>} />
 			</Routes>
 		</BrowserRouter>
   );
