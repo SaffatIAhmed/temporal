@@ -1,8 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import ListingCardGrid from "../components/ListingCardGrid";
 import Header from "../components/Header";
 import { ListingCardData } from "../utils/Interfaces";
 
 function BrowsePage() {
+	
 	const dummyData: ListingCardData[] = [
 		{
 			address: {
@@ -106,6 +108,22 @@ function BrowsePage() {
 		},
 	];
 
+	const [fetchedData, setFetchedData] = useState(null);
+
+	useEffect(() => {
+	  const fetchDataAsync = async () => {
+		const data = await fetchData();
+		setFetchedData(data);
+	  };
+  
+	  fetchDataAsync();
+	}, []);
+
+
+	console.log(fetchedData);
+	
+
+
 	return (
 		<>
 			<Header />
@@ -114,4 +132,22 @@ function BrowsePage() {
 	);
 }
 
+async function fetchData() {
+	let jsondata;
+  
+	try {
+	  const response = await fetch('http://localhost:3000/listings');
+	  jsondata = await response.json();
+	  //console.log(jsondata);
+	  return jsondata
+
+	} catch (error) {
+	  console.error('Error fetching data:', error);
+	}
+  }
+  
+
+
+
 export default BrowsePage;
+ 
