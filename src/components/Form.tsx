@@ -41,12 +41,11 @@ const signupSchema = Yup.object().shape({
 });
 
 const submitForm = (values: FormValues, actions: FormikHelpers<FormValues>) => {
-  console.log("Testing");
   console.log(values);
   actions.setSubmitting(false);
 };
 
-const SignupForm: React.FC = () => {
+function SignupForm() {
   return (
     <Formik
       initialValues={initialValues}
@@ -61,8 +60,6 @@ const SignupForm: React.FC = () => {
           errors,
           touched,
           handleBlur,
-          //isValid,
-          //dirty,
         } = formikProps;
         return (
           <div className="testing">
@@ -172,12 +169,6 @@ const SignupForm: React.FC = () => {
                   <Button
                     type="submit"
                     onClick={() => handleSubmit()} // Call handleSubmit when the button is clicked
-                    className={
-                      !(formikProps.dirty && formikProps.isValid)
-                        ? "disabled-btn"
-                        : ""
-                    }
-                    disabled={!(formikProps.dirty && formikProps.isValid)}
                   >
                     Sign up
                   </Button>
