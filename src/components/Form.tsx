@@ -6,6 +6,7 @@ import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import "../styles/LoginForm.scss";
+import * as Yup from "yup";
 
 interface FormValues {
   firstname: string;
@@ -23,43 +24,24 @@ const initialValues: FormValues = {
   password: "",
 };
 
-const validate = (values: FormValues) => {
-  let errors: Partial<FormValues> = {};
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-  const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-  if (!values.firstname) {
-    errors.firstname = "First name is required";
-  }
-
-  if (!values.lastname) {
-    errors.lastname = "Last name is required";
-  }
-
-  if (!values.email) {
-    errors.email = "Email is required";
-  } else if (!emailRegex.test(values.email)) {
-    errors.email = "Invalid Email";
-  }
-
-  if (!values.username) {
-    errors.username = "Username is required";
-  }
-
-  if (!values.password) {
-    errors.password = "Password is required";
-  } else if (values.password.length < 8) {
-    errors.password = "Password must be more than 8 character";
-  } else if (!passwordRegex.test(values.password)) {
-    errors.password =
-      "Password needs to include at least one uppercase, lowercase, number, and special character";
-  }
-
-  return errors;
-};
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
+const signupSchema = Yup.object().shape({
+  firstname: Yup.string().required("First name is required"),
+  lastname: Yup.string().required("Last name is requried"),
+  email: Yup.string().email("Invalid Email").required("Email is required"),
+  username: Yup.string().required("Username is required"),
+  password: Yup.string()
+    .min(8, "Password needs at least 8 characters")
+    .matches(
+      passwordRegex,
+      "Password requires at least one uppercase, lowercase, number, and special character"
+    )
+    .required("Password is required"),
+});
 
 const submitForm = (values: FormValues, actions: FormikHelpers<FormValues>) => {
+  console.log("Testing");
   console.log(values);
   actions.setSubmitting(false);
 };
@@ -68,7 +50,7 @@ const SignupForm: React.FC = () => {
   return (
     <Formik
       initialValues={initialValues}
-      validate={validate}
+      validationSchema={signupSchema}
       onSubmit={submitForm}
     >
       {(formikProps: FormikProps<FormValues>) => {
@@ -79,8 +61,8 @@ const SignupForm: React.FC = () => {
           errors,
           touched,
           handleBlur,
-          isValid,
-          dirty,
+          //isValid,
+          //dirty,
         } = formikProps;
         return (
           <div className="testing">
@@ -90,7 +72,7 @@ const SignupForm: React.FC = () => {
                 <Form onSubmit={handleSubmit}>
                   <Row>
                     <Col>
-                      <Form.Label htmlFor="firstName">First Name</Form.Label>
+                      <Form.Label htmlFor="firstname">First Name</Form.Label>
                       <Form.Control
                         type="firstname"
                         name="firstname"
@@ -189,8 +171,13 @@ const SignupForm: React.FC = () => {
                 <div className="submit-btn">
                   <Button
                     type="submit"
-                    className={!(dirty && isValid) ? "disabled-btn" : ""}
-                    disabled={!(dirty && isValid)}
+                    onClick={() => handleSubmit()} // Call handleSubmit when the button is clicked
+                    className={
+                      !(formikProps.dirty && formikProps.isValid)
+                        ? "disabled-btn"
+                        : ""
+                    }
+                    disabled={!(formikProps.dirty && formikProps.isValid)}
                   >
                     Sign up
                   </Button>
