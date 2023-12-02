@@ -1,5 +1,5 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
-import { ChatLeftTextFill, Star } from "react-bootstrap-icons";
+import { CartFill, Star } from "react-bootstrap-icons";
 import IconButton from "./IconButton";
 import { ListingCardData } from "../utils/Interfaces";
 import { useState } from "react";
@@ -16,7 +16,7 @@ function ListingCard({ data: props }: ListingCardProps) {
 	return (
 		<>
 			<Card
-				style={{ width: 360, display: "block", cursor: "pointer" }}
+				style={{ width: 360, cursor: "pointer" }}
 				onClick={() => setIsModalOpen(true)}
 			>
 				<Card.Img
@@ -33,49 +33,42 @@ function ListingCard({ data: props }: ListingCardProps) {
 				<Card.Body>
 					<Row>
 						<Col sm={10}>
-							<Row>
-								<span
-									style={{
-										color: "#154734",
-										fontWeight: "bold",
-									}}
-								>
-									{props.address.street}
-								</span>
-							</Row>
-							<Row>
-								<span>
-									{props.address.neighborhood} •{" "}
-									{props.address.city}, {props.address.state}
-								</span>
-							</Row>
-							<Row>
-								<span>
-									<b>${props.rent}</b> • Available Now
-								</span>
-							</Row>
+							<div
+								style={{
+									color: "#154734",
+									fontWeight: "bold",
+								}}
+							>
+								{props.address.street}
+							</div>
+							<div>
+								{props.address.neighborhood +
+									" • " +
+									props.address.city +
+									", " +
+									props.address.state}
+							</div>
+							<div>
+								<b>${props.rent}</b> • Available Now
+							</div>
 						</Col>
 						<Col sm={2} style={{ cursor: "default" }}>
-							<Row>
-								<IconButton
-									icon={<Star size={24} />}
-									onClick={function (): {} {
-										throw new Error(
-											"Function not implemented."
-										);
-									}}
-								/>
-							</Row>
-							<Row>
-								<IconButton
-									icon={<ChatLeftTextFill size={24} />}
-									onClick={function (): {} {
-										throw new Error(
-											"Function not implemented."
-										);
-									}}
-								/>
-							</Row>
+							<IconButton
+								icon={<Star size={24} />}
+								onClick={function (): {} {
+									throw new Error(
+										"Function not implemented."
+									);
+								}}
+							/>
+							<IconButton
+								icon={<CartFill size={24} />}
+								onClick={function (): {} {
+									throw new Error(
+										"Function not implemented."
+									);
+								}}
+							/>
 						</Col>
 					</Row>
 				</Card.Body>

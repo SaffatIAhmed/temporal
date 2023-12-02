@@ -1,5 +1,5 @@
 import { Row, Col, Modal, Carousel, Image, Placeholder } from "react-bootstrap";
-import { ChatLeftTextFill, Star } from "react-bootstrap-icons";
+import { CartFill, Star } from "react-bootstrap-icons";
 import { ListingCardData } from "../utils/Interfaces";
 import ThemeButton from "./ThemedButton";
 import { useState } from "react";
@@ -75,8 +75,8 @@ function ListingCardModal(props: ListingCardModalProps) {
 							}}
 						/>
 						<ThemeButton
-							icon={<ChatLeftTextFill size={24} />}
-							content="Message Lister"
+							icon={<CartFill size={24} />}
+							content="Make Payment"
 							onClick={function (): {} {
 								throw new Error("Function not implemented.");
 							}}
