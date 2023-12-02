@@ -1,5 +1,4 @@
 import ListingCardGrid from "../components/ListingCardGrid";
-import Header from "../components/Header";
 import { ListingCardData } from "../utils/Interfaces";
 
 function BrowsePage() {
@@ -106,12 +105,7 @@ function BrowsePage() {
 		},
 	];
 
-	return (
-		<>
-			<Header />
-			<ListingCardGrid dataList={dummyData} />
-		</>
-	);
+	return <ListingCardGrid dataList={dummyData} />;
 }
 
 export default BrowsePage;
