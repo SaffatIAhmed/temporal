@@ -4,6 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import BrowsePage from "./pages/BrowsePage";
 import SavedPage from "./pages/SavedPage";
 import Header from "./components/Header";
+import PostedPage from "./pages/PostedPage";
 
 export const App = () => {
 	return (
@@ -13,6 +14,7 @@ export const App = () => {
 				<Route path="/" element={<Navigate to={"/browse"} />} />
 				<Route path="/browse" element={<BrowsePage />} />
 				<Route path="/saved" element={<SavedPage />} />
+				<Route path="/posted" element={<PostedPage />} />
 			</Routes>
 		</BrowserRouter>
 	);
