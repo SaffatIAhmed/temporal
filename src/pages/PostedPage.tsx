@@ -4,6 +4,7 @@ import { ListingCardData } from "../utils/Interfaces";
 function PostedPage() {
 	const dummyData: ListingCardData[] = [
 		{
+			id: 70,
 			address: {
 				street: "4555 Red Bard Drive",
 				neighborhood: "UBreckenridge",
@@ -15,6 +16,7 @@ function PostedPage() {
 		},
 
 		{
+			id: 90,
 			address: {
 				street: "1114 Ridgeway Circle",
 				neighborhood: "Cottonwood Heights",
