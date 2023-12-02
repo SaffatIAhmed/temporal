@@ -13,7 +13,6 @@ function ListingCardGrid(props: ListingCardGridProps) {
 		<Container
 			fluid
 			style={{
-				width: "90%",
 				maxWidth: 1144,
 				marginTop: 48,
 				marginBottom: 96,

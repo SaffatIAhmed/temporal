@@ -10,12 +10,14 @@ export const App = () => {
 	return (
 		<BrowserRouter>
 			<Header />
-			<Routes>
-				<Route path="/" element={<Navigate to={"/browse"} />} />
-				<Route path="/browse" element={<BrowsePage />} />
-				<Route path="/saved" element={<SavedPage />} />
-				<Route path="/posted" element={<PostedPage />} />
-			</Routes>
+			<div style={{ marginInline: 48 }}>
+				<Routes>
+					<Route path="/" element={<Navigate to={"/browse"} />} />
+					<Route path="/browse" element={<BrowsePage />} />
+					<Route path="/saved" element={<SavedPage />} />
+					<Route path="/posted" element={<PostedPage />} />
+				</Routes>
+			</div>
 		</BrowserRouter>
 	);
 };
