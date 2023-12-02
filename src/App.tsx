@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+
 export const App = ()=> {
   return (
     <BrowserRouter>
@@ -11,7 +12,7 @@ export const App = ()=> {
 				<Route path="/signup" element={<SignupPage />} />
         		<Route path="/modLogin" element={<LoginPage formWelcomeMsg = "Welcome Moderator!"/>} />
 			</Routes>
-		</BrowserRouter>
+	</BrowserRouter>
   );
 };
 

@@ -6,7 +6,7 @@ import "../styles/LoginForm.scss";
 function SignupForm() {
   return (
     <div className="testing">
-      <Card style={{ width: '18rem' }}>
+      <Card style={{ width: "18rem" }}>
         <Card.Body>
           <Card.Title>Sign up</Card.Title>
           <Form>
@@ -17,12 +17,12 @@ function SignupForm() {
               </Col>
               <Col>
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control type="lastName"/>
+                <Form.Control type="lastName" />
               </Col>
             </Row>
             <Form.Group>
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email"/>
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" />
             </Form.Group>
             <Form.Group>
               <Form.Label>Username</Form.Label>
@@ -33,7 +33,7 @@ function SignupForm() {
               <Form.Control type="password" />
             </Form.Group>
           </Form>
-          <div className='submit-btn'>
+          <div className="submit-btn">
             <Button variant="primary" type="submit">
               Sign up
             </Button>
