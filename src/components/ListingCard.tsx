@@ -15,7 +15,10 @@ function ListingCard({ data: props }: ListingCardProps) {
 
 	return (
 		<>
-			<Card style={{ width: 360 }} onClick={() => setIsModalOpen(true)}>
+			<Card
+				style={{ width: 360, display: "block", cursor: "pointer" }}
+				onClick={() => setIsModalOpen(true)}
+			>
 				<Card.Img
 					variant="top"
 					src="https://picsum.photos/360/240"
@@ -52,7 +55,7 @@ function ListingCard({ data: props }: ListingCardProps) {
 								</span>
 							</Row>
 						</Col>
-						<Col sm={2}>
+						<Col sm={2} style={{ cursor: "default" }}>
 							<Row>
 								<IconButton
 									icon={<Star size={24} />}
