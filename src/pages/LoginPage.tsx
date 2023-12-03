@@ -1,21 +1,30 @@
-import LinkBtn from "../components/LinkBtn";
+import { Card, Container } from "react-bootstrap";
 import LoginForm from "../components/LoginForm";
-import "../styles/LoginPages.scss";
+import { NavLink } from "react-router-dom";
 
-interface Props {
-    formWelcomeMsg: string;
+interface LoginPageProps {
+    formTitle: string;
+    moderator?: boolean;
 }
 
-function LoginPage({ formWelcomeMsg }: Props) {
-    return(
-        <>
-            <div className="page">
-                <LoginForm welcomeMsg = {formWelcomeMsg}/>
-                <div className="link-btn">
-                    <LinkBtn btnContext="Don't have an account?" btnText="Sign Up" btnLink="/signup" />
-                </div>
-            </div>
-        </>
+function LoginPage({ formTitle: formWelcomeMsg, moderator }: LoginPageProps) {
+    return (
+        <Container fluid>
+            <Card style={{ width: "24rem" }} className="mx-auto p-4">
+                <Card.Title className="text-center">{formWelcomeMsg}</Card.Title>
+                <Card.Body>
+                    <LoginForm />
+                    {moderator
+                        ? null
+                        : (
+                            <div className="text-center mt-2">
+                                Don't have an account? <NavLink to={"/signup"}>Sign Up</NavLink>
+                            </div>
+                        )
+                    }
+                </Card.Body>
+            </Card>
+        </Container>
     );
 }
 
