@@ -8,18 +8,18 @@ interface IconButtonProps {
 
 function IconButton(props: IconButtonProps) {
 	return (
-		<div style={{ width: 40, height: 40 }}>
-			<Button
-				onClick={props.onClick}
-				size="sm"
-				variant="link"
-				style={{
-					color: "#212529",
-				}}
-			>
-				{props.icon}
-			</Button>
-		</div>
+		<Button
+			onClick={props.onClick}
+			size="sm"
+			variant="link"
+			style={{
+				width: 40,
+				height: 40,
+				color: "#212529",
+			}}
+		>
+			{props.icon}
+		</Button>
 	);
 }
 

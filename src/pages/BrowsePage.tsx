@@ -1,10 +1,10 @@
 import ListingCardGrid from "../components/ListingCardGrid";
-import Header from "../components/Header";
 import { ListingCardData } from "../utils/Interfaces";
 
 function BrowsePage() {
 	const dummyData: ListingCardData[] = [
 		{
+			id: 10,
 			address: {
 				street: "2600 East Renner Road",
 				neighborhood: "Crowley Park",
@@ -15,6 +15,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 20,
 			address: {
 				street: "601 Dover Drive",
 				neighborhood: "Cottonwood Heights",
@@ -25,6 +26,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 30,
 			address: {
 				street: "1903 North Waterview Drive",
 				neighborhood: "J. J. Pierce",
@@ -35,6 +37,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 40,
 			address: {
 				street: "1913 Eastfield Drive",
 				neighborhood: "Berkner Park",
@@ -45,6 +48,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 50,
 			address: {
 				street: "2090 East Arapaho Road",
 				neighborhood: "Duck Creek",
@@ -55,6 +59,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 60,
 			address: {
 				street: "3000 Northside Boulevard",
 				neighborhood: "University Village",
@@ -65,6 +70,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 70,
 			address: {
 				street: "4555 Red Bard Drive",
 				neighborhood: "UBreckenridge",
@@ -75,6 +81,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 80,
 			address: {
 				street: "672 Matthew Place",
 				neighborhood: "Telecom Corridor",
@@ -85,6 +92,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 90,
 			address: {
 				street: "1114 Ridgeway Circle",
 				neighborhood: "Cottonwood Heights",
@@ -95,6 +103,7 @@ function BrowsePage() {
 			isAvaliable: true,
 		},
 		{
+			id: 100,
 			address: {
 				street: "672 Matthew Place",
 				neighborhood: "Telecom Corridor",
@@ -106,12 +115,7 @@ function BrowsePage() {
 		},
 	];
 
-	return (
-		<>
-			<Header />
-			<ListingCardGrid dataList={dummyData} />
-		</>
-	);
+	return <ListingCardGrid dataList={dummyData} />;
 }
 
 export default BrowsePage;

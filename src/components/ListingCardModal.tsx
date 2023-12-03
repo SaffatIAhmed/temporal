@@ -1,5 +1,5 @@
 import { Row, Col, Modal, Carousel, Image, Placeholder } from "react-bootstrap";
-import { ChatLeftTextFill, Star } from "react-bootstrap-icons";
+import { CartFill, Star } from "react-bootstrap-icons";
 import { ListingCardData } from "../utils/Interfaces";
 import ThemeButton from "./ThemedButton";
 import { useState } from "react";
@@ -36,7 +36,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 					<Carousel>
 						<Carousel.Item>
 							<Image
-								src="https://picsum.photos/640/360"
+								src={`https://picsum.photos/id/${props.data.id}/640/360`}
 								onLoad={() => setImgLoading(false)}
 								rounded
 							/>
@@ -49,13 +49,17 @@ function ListingCardModal(props: ListingCardModalProps) {
 						</Carousel.Item>
 						<Carousel.Item>
 							<Image
-								src="https://picsum.photos/640/360"
+								src={`https://picsum.photos/id/${
+									props.data.id + 1
+								}/640/360`}
 								rounded
 							/>
 						</Carousel.Item>
 						<Carousel.Item>
 							<Image
-								src="https://picsum.photos/640/360"
+								src={`https://picsum.photos/id/${
+									props.data.id + 2
+								}/640/360`}
 								rounded
 							/>
 						</Carousel.Item>
@@ -75,8 +79,8 @@ function ListingCardModal(props: ListingCardModalProps) {
 							}}
 						/>
 						<ThemeButton
-							icon={<ChatLeftTextFill size={24} />}
-							content="Message Lister"
+							icon={<CartFill size={24} />}
+							content="Make Payment"
 							onClick={function (): {} {
 								throw new Error("Function not implemented.");
 							}}

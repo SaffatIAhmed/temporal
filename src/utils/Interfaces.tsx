@@ -1,4 +1,5 @@
 export interface ListingCardData {
+	id: number;
 	address: {
 		street: string;
 		neighborhood: string;

@@ -3,15 +3,21 @@ import "./styles/App.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import BrowsePage from "./pages/BrowsePage";
 import SavedPage from "./pages/SavedPage";
+import Header from "./components/Header";
+import PostedPage from "./pages/PostedPage";
 
 export const App = () => {
 	return (
 		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<Navigate to={"/browse"} />} />
-				<Route path="/browse" element={<BrowsePage />} />
-				<Route path="/saved" element={<SavedPage />} />
-			</Routes>
+			<Header />
+			<div style={{ marginInline: 48 }}>
+				<Routes>
+					<Route path="/" element={<Navigate to={"/browse"} />} />
+					<Route path="/browse" element={<BrowsePage />} />
+					<Route path="/saved" element={<SavedPage />} />
+					<Route path="/posted" element={<PostedPage />} />
+				</Routes>
+			</div>
 		</BrowserRouter>
 	);
 };
