@@ -3,7 +3,9 @@
 import { Formik } from "formik";
 import { Col, Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import { NavLink } from "react-router-dom";
 import * as Yup from "yup";
+import ThemedButton from "./ThemedButton";
 
 interface SignupFormData {
   firstName: string;
@@ -42,101 +44,106 @@ function SignupForm() {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={signupSchema}
-      onSubmit={submitForm}
-    >
-      {({ handleSubmit, handleChange, handleBlur, values, errors, isValid, setFieldValue }) => (
-        <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col>
-              <Form.Label htmlFor="firstName">First Name</Form.Label>
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={signupSchema}
+        onSubmit={submitForm}
+      >
+        {({ handleSubmit, handleChange, handleBlur, values, errors, isValid, setFieldValue }) => (
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <Col>
+                <Form.Label htmlFor="firstName">First Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={values.firstName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={!!errors.firstName}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.firstName}
+                </Form.Control.Feedback>
+              </Col>
+              <Col>
+                <Form.Label htmlFor="lastName">Last Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={!!errors.lastName}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.lastName}
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
+            <Form.Group>
+              <Form.Label htmlFor="email">Email</Form.Label>
               <Form.Control
-                type="text"
-                name="firstName"
-                id="firstName"
-                value={values.firstName}
+                type="email"
+                name="email"
+                id="email"
+                value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                isInvalid={!!errors.firstName}
+                isInvalid={!!errors.email}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.firstName}
+                {errors.email}
               </Form.Control.Feedback>
-            </Col>
-            <Col>
-              <Form.Label htmlFor="lastName">Last Name</Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="username">Username</Form.Label>
               <Form.Control
-                type="text"
-                name="lastName"
-                id="lastName"
-                value={values.lastName}
+                type="username"
+                name="username"
+                id="username"
+                value={values.username}
+                onChange={(evt) => {
+                  handleChange(evt);
+                  setFieldValue('username', evt.target.value.replace(" ", "_"));
+                }}
+                onBlur={handleBlur}
+                isInvalid={!!errors.username}
+              />
+              <Form.Control.Feedback type="invalid">
+                {errors.username}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="password">Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                id="password"
+                value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                isInvalid={!!errors.lastName}
+                isInvalid={!!errors.password}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.lastName}
+                {errors.password}
               </Form.Control.Feedback>
-            </Col>
-          </Row>
-          <Form.Group>
-            <Form.Label htmlFor="email">Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              id="email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={!!errors.email}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.email}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="username">Username</Form.Label>
-            <Form.Control
-              type="username"
-              name="username"
-              id="username"
-              value={values.username}
-              onChange={(evt) => {
-                handleChange(evt);
-                setFieldValue('username', evt.target.value.replace(" ", "_"));
-              }}
-              onBlur={handleBlur}
-              isInvalid={!!errors.username}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.username}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="password">Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              id="password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={!!errors.password}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.password}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <div className="d-grid gap-2 mt-2">
-            <Button variant="primary" type="submit" disabled={!isValid}>
-              Sign Up
-            </Button>
-          </div>
-        </Form>
-      )}
-    </Formik >
+            </Form.Group>
+            <div className="d-grid gap-2 mt-2">
+              <ThemedButton type="submit" disabled={!isValid}>
+                Sign Up
+              </ThemedButton>
+            </div>
+          </Form>
+        )}
+      </Formik >
+      <div className="text-center mt-2">
+        Already Registered? <NavLink to={"/login"} style={{ color: "#154734" }}>Sign In</NavLink>
+      </div>
+    </>
   );
 };
 
