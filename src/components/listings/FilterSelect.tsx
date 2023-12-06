@@ -15,8 +15,8 @@ function FilterSelect(props: FilterSelectProps) {
 		<FloatingLabel label={props.label}>
 			<Form.Select style={{ minWidth: 150 }}>
 				<option>Any</option>
-				{props.options.map(option => {
-					return <option value={option.value}>{option.title}</option>;
+				{props.options.map((option, index) => {
+					return <option key={index} value={option.value}>{option.title}</option>;
 				})}
 			</Form.Select>
 		</FloatingLabel>

@@ -1,7 +1,7 @@
 import { Row, Col, Modal, Carousel, Image, Placeholder } from "react-bootstrap";
 import { CartFill, Star } from "react-bootstrap-icons";
-import { ListingCardData } from "../utils/Interfaces";
-import ThemeButton from "./ThemedButton";
+import { ListingCardData } from "../../utils/Interfaces";
+import ThemeButton from "../base/ThemedButton";
 import { useState } from "react";
 
 interface ListingCardModalProps {
@@ -49,17 +49,15 @@ function ListingCardModal(props: ListingCardModalProps) {
 						</Carousel.Item>
 						<Carousel.Item>
 							<Image
-								src={`https://picsum.photos/id/${
-									props.data.id + 1
-								}/640/360`}
+								src={`https://picsum.photos/id/${props.data.id + 1
+									}/640/360`}
 								rounded
 							/>
 						</Carousel.Item>
 						<Carousel.Item>
 							<Image
-								src={`https://picsum.photos/id/${
-									props.data.id + 2
-								}/640/360`}
+								src={`https://picsum.photos/id/${props.data.id + 2
+									}/640/360`}
 								rounded
 							/>
 						</Carousel.Item>

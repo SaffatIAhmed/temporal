@@ -1,11 +1,15 @@
 // https://www.smashingmagazine.com/2020/10/react-validation-formik-yup/
 
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import { Col, Form, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import { NavLink } from "react-router-dom";
 import * as Yup from "yup";
-import ThemedButton from "./ThemedButton";
+import ThemedButton from "../base/ThemedButton";
+import { FormStatusData } from "../../utils/FormInterfaces";
+import { useContext } from "react";
+import { UserDispatchContext } from "../../state-management/contexts/UserContext";
+import { UserPayload, UserActionKind } from "../../state-management/reducers/UserReducer";
+import { RouteNames } from "../../utils/RoutesInfo";
 
 interface SignupFormData {
   firstName: string;
@@ -15,7 +19,9 @@ interface SignupFormData {
   password: string;
 }
 
-function SignupForm() {
+function RegisterForm() {
+  const dispatch = useContext(UserDispatchContext);
+
   const initialValues: SignupFormData = {
     firstName: "",
     lastName: "",
@@ -24,23 +30,55 @@ function SignupForm() {
     password: "",
   };
 
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
+  const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   const signupSchema = Yup.object().shape({
     firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is requried"),
     email: Yup.string().email("Invalid Email").required("Email is required"),
     username: Yup.string().required("Username is required"),
     password: Yup.string()
-      .min(8, "Password needs at least 8 characters")
       .matches(
         passwordRegex,
-        "Password requires at least one uppercase, lowercase, number, and special character"
+        "Password requires at least one uppercase, lowercase, number, and\
+        special character and should be at least 8 characters long"
       )
       .required("Password is required"),
   });
 
-  const submitForm = (values: SignupFormData) => {
-    console.log(values);
+  const submitForm = async (values: SignupFormData, { setStatus, setSubmitting }: FormikHelpers<SignupFormData>) => {
+    try {
+      const result = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          username: values.username,
+          password: values.password,
+        })
+      });
+      if (!result.ok) {
+        throw new Error(`${result.status} ${result.statusText}`);
+      }
+      const data = await result.json();
+      const payload = data as UserPayload;
+      if (payload) {
+        dispatch({
+          type: UserActionKind.LOGIN,
+          payload
+        });
+        setStatus({ message: 'Login Success!', error: false });
+      } else {
+        setStatus({ message: 'Something went wrong', error: true });
+      }
+      setSubmitting(false);
+    } catch (err) {
+      setStatus({ message: `${err}`, error: true });
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -50,7 +88,7 @@ function SignupForm() {
         validationSchema={signupSchema}
         onSubmit={submitForm}
       >
-        {({ handleSubmit, handleChange, handleBlur, values, errors, isValid, setFieldValue }) => (
+        {({ handleSubmit, handleChange, handleBlur, values, errors, isValid, status, setFieldValue }) => (
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col>
@@ -60,7 +98,10 @@ function SignupForm() {
                   name="firstName"
                   id="firstName"
                   value={values.firstName}
-                  onChange={handleChange}
+                  onChange={(evt) => {
+                    handleChange(evt);
+                    setFieldValue("firstName", evt.target.value.trim().replace(" ", ""));
+                  }}
                   onBlur={handleBlur}
                   isInvalid={!!errors.firstName}
                 />
@@ -75,7 +116,10 @@ function SignupForm() {
                   name="lastName"
                   id="lastName"
                   value={values.lastName}
-                  onChange={handleChange}
+                  onChange={(evt) => {
+                    handleChange(evt);
+                    setFieldValue("lastName", evt.target.value.trim().replace(" ", ""));
+                  }}
                   onBlur={handleBlur}
                   isInvalid={!!errors.lastName}
                 />
@@ -91,7 +135,10 @@ function SignupForm() {
                 name="email"
                 id="email"
                 value={values.email}
-                onChange={handleChange}
+                onChange={(evt) => {
+                  handleChange(evt);
+                  setFieldValue("email", evt.target.value.trim().replace(" ", ""));
+                }}
                 onBlur={handleBlur}
                 isInvalid={!!errors.email}
               />
@@ -134,17 +181,23 @@ function SignupForm() {
             </Form.Group>
             <div className="d-grid gap-2 mt-2">
               <ThemedButton type="submit" disabled={!isValid}>
-                Sign Up
+                Submit
               </ThemedButton>
             </div>
+            {
+              ((status as FormStatusData)?.message) &&
+              (<div className={`text-center ${status.error ? "text-danger" : "text-success"}`}>
+                {status.message}
+              </div>)
+            }
           </Form>
         )}
       </Formik >
       <div className="text-center mt-2">
-        Already Registered? <NavLink to={"/login"} style={{ color: "#154734" }}>Sign In</NavLink>
+        Already Registered? <NavLink to={RouteNames.LOGIN} style={{ color: "#154734" }}>Login</NavLink>
       </div>
     </>
   );
 };
 
-export default SignupForm;
+export default RegisterForm;

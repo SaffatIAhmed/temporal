@@ -1,22 +1,21 @@
 import { useContext } from "react";
 import { Form } from "react-bootstrap";
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { NavLink } from "react-router-dom";
-import ThemedButton from "./ThemedButton";
-import { UserDispatchContext } from "../state-management/contexts/UserContext";
-import { UserActionKind } from "../state-management/reducers/UserReducer";
-
-interface LoginFormProps {
-  moderator?: boolean;
-}
+import { UserDispatchContext } from "../../state-management/contexts/UserContext";
+import { UserActionKind, UserPayload } from "../../state-management/reducers/UserReducer";
+import { FormStatusData } from "../../utils/FormInterfaces";
+import { RouteNames } from "../../utils/RoutesInfo";
+import ThemedButton from "../base/ThemedButton";
 
 interface LoginFormData {
   username: string;
   password: string;
 }
 
-function LoginForm({ moderator }: LoginFormProps) {
+
+function LoginForm() {
   const dispatch = useContext(UserDispatchContext);
 
   const initialValues: LoginFormData = {
@@ -29,18 +28,37 @@ function LoginForm({ moderator }: LoginFormProps) {
     password: Yup.string().required("Password is required"),
   });
 
-  const submitForm = async (values: LoginFormData) => {
-    console.log(values);
-    dispatch({
-      type: UserActionKind.LOGIN,
-      payload: {
-        username: values.username,
-        password: values.password,
-        role: moderator ? "moderator" : "user",
-        userID: null,
-        isLoggedIn: false
+  const submitForm = async (values: LoginFormData, { setSubmitting, setStatus }: FormikHelpers<LoginFormData>) => {
+    try {
+      const result = await fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: values.username,
+          password: values.password
+        })
+      });
+      if (!result.ok) {
+        throw new Error(`${result.status} ${result.statusText}`);
       }
-    });
+      const data = await result.json();
+      const payload = data as UserPayload;
+      if (payload) {
+        dispatch({
+          type: UserActionKind.LOGIN,
+          payload
+        });
+        setStatus({ message: 'Login Success!', error: false });
+      } else {
+        setStatus({ message: 'Something went wrong', error: true });
+      }
+      setSubmitting(false);
+    } catch (err) {
+      setStatus({ message: `${err}`, error: true });
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -50,7 +68,7 @@ function LoginForm({ moderator }: LoginFormProps) {
         validationSchema={signupSchema}
         onSubmit={submitForm}
       >
-        {({ handleSubmit, handleChange, handleBlur, values, errors, isValid }) => (
+        {({ handleSubmit, handleChange, handleBlur, values, errors, status, isValid }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label htmlFor="username">Username</Form.Label>
@@ -88,21 +106,21 @@ function LoginForm({ moderator }: LoginFormProps) {
             </Form.Group>
             <div className="d-grid gap-2 mt-2">
               <ThemedButton type="submit" disabled={!isValid}>
-                Sign in
+                Submit
               </ThemedButton>
             </div>
+            {
+              ((status as FormStatusData)?.message) &&
+              (<div className={`text-center ${status.error ? "text-danger" : "text-success"}`}>
+                {status.message}
+              </div>)
+            }
           </Form>
         )}
       </Formik>
-
-      {moderator
-        ? null
-        : (
-          <div className="text-center mt-2">
-            Don't have an account? <NavLink to={"/signup"} style={{ color: "#154734" }}>Sign Up</NavLink>
-          </div>
-        )
-      }
+      <div className="text-center mt-2">
+        Don't have an account? <NavLink to={RouteNames.REGISTER} style={{ color: "#154734" }}>Register</NavLink>
+      </div>
     </>
   );
 }

@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+//Constants
+import { RouteNames } from "./utils/RoutesInfo";
 
 // State
 import UserProvider from "./state-management/providers/UserProvider";
@@ -6,9 +8,10 @@ import UserProvider from "./state-management/providers/UserProvider";
 // Pages
 import BrowsePage from "./pages/BrowsePage";
 import SavedPage from "./pages/SavedPage";
-import Header from "./components/Header";
+import Header from "./components/common/Header";
 import PostedPage from "./pages/PostedPage";
-import LoginSignupPage from "./pages/LoginSignupPage";
+import LoginRegisterPage from "./pages/LoginRegisterPage";
+import UsersPage from "./pages/UsersPage";
 
 // Styles
 import "./styles/App.scss";
@@ -21,13 +24,13 @@ export const App = () => {
 				<Header />
 				<div style={{ marginInline: 48 }}>
 					<Routes>
-						<Route path="/" element={<Navigate to={"/browse"} />} />
-						<Route path="/browse" element={<BrowsePage />} />
-						<Route path="/saved" element={<SavedPage />} />
-						<Route path="/posted" element={<PostedPage />} />
-						<Route path="/login" element={<LoginSignupPage mode="login" formTitle="Welcome User!" />} />
-						<Route path="/signup" element={<LoginSignupPage mode="signup" formTitle="New Account" />} />
-						<Route path="/modLogin" element={<LoginSignupPage mode="login" moderator formTitle="Welcome Moderator!" />} />
+						<Route path={RouteNames.HOME} element={<Navigate to={"/browse"} />} />
+						<Route path={RouteNames.BROWSE} element={<BrowsePage />} />
+						<Route path={RouteNames.SAVED} element={<SavedPage />} />
+						<Route path={RouteNames.POSTED} element={<PostedPage />} />
+						<Route path={RouteNames.LOGIN} element={<LoginRegisterPage mode="login" formTitle="Log In" />} />
+						<Route path={RouteNames.REGISTER} element={<LoginRegisterPage mode="register" formTitle="Register" />} />
+						<Route path={RouteNames.USERS} element={<UsersPage />} />
 					</Routes>
 				</div>
 			</BrowserRouter>

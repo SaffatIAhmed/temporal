@@ -6,7 +6,7 @@ import { Formik, FormikProps } from 'formik';
 import * as yup from 'yup';
 import moment from 'moment'
 
-import "../styles/App.scss";
+import "../../styles/App.scss";
 
 interface CreateListingSchema {
     title: string,
