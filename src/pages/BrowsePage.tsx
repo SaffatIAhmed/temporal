@@ -1,4 +1,4 @@
-import ListingCardGrid from "../components/ListingCardGrid";
+import ListingCardGrid from "../components/listings/ListingCardGrid";
 import { ListingCardData } from "../utils/Interfaces";
 
 function BrowsePage() {

@@ -1,9 +1,9 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
 import { CartFill, Star } from "react-bootstrap-icons";
-import IconButton from "./IconButton";
-import { ListingCardData } from "../utils/Interfaces";
+import { ListingCardData } from "../../utils/Interfaces";
 import { useState } from "react";
 import ListingCardModal from "./ListingCardModal";
+import IconButton from "../base/IconButton";
 
 interface ListingCardProps {
 	data: ListingCardData;

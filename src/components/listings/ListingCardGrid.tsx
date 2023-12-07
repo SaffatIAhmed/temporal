@@ -1,5 +1,5 @@
 import Container from "react-bootstrap/esm/Container";
-import { ListingCardData } from "../utils/Interfaces";
+import { ListingCardData } from "../../utils/Interfaces";
 import ListingCard from "./ListingCard";
 import FilterSelect from "./FilterSelect";
 import FilterField from "./FilterField";

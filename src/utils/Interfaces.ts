@@ -9,3 +9,8 @@ export interface ListingCardData {
 	rent: number;
 	isAvaliable: boolean;
 }
+
+export interface UserCardData {
+	firstName: string;
+	lastName: string;
+}
