@@ -1,5 +1,3 @@
-// https://www.smashingmagazine.com/2020/10/react-validation-formik-yup/
-
 import { Formik, FormikHelpers } from "formik";
 import { Col, Form, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
