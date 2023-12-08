@@ -3,6 +3,7 @@ import { ListingCardData } from "../../utils/Interfaces";
 import ListingCard from "./ListingCard";
 import FilterSelect from "./FilterSelect";
 import FilterField from "./FilterField";
+import { Form } from "react-bootstrap";
 
 interface ListingCardGridProps {
 	dataList: ListingCardData[];
@@ -21,22 +22,29 @@ function ListingCardGrid(props: ListingCardGridProps) {
 		>
 			<div
 				style={{
+					marginBottom: 16,
+					display: "flex",
+					gap: 16,
+				}}
+			>
+				<span style={{ fontSize: 24, whiteSpace: "nowrap" }}>
+					Found {props.dataList.length} listings in Richardson, TX
+				</span>
+				<Form.Control placeholder="Search other locations..." />
+			</div>
+			<div
+				style={{
+					width: "100%",
 					marginBottom: 32,
 					display: "flex",
 					flexWrap: "wrap",
 					gap: 16,
 				}}
 			>
+				<FilterField label="Avaliable Start" type="date" />
+				<FilterField label="Avaliable Until" type="date" />
 				<FilterField label="Min. Rent" />
 				<FilterField label="Max. Rent" />
-				<FilterSelect
-					label="Type of Place"
-					options={[
-						{ title: "Apartment", value: "apartment" },
-						{ title: "House", value: "house" },
-						{ title: "Condo", value: "condo" },
-					]}
-				/>
 				<FilterSelect
 					label="Pet Friendly"
 					options={[
@@ -46,6 +54,13 @@ function ListingCardGrid(props: ListingCardGridProps) {
 				/>
 				<FilterSelect
 					label="Smoke Friendly"
+					options={[
+						{ title: "Yes", value: true },
+						{ title: "No", value: false },
+					]}
+				/>
+				<FilterSelect
+					label="Guest Friendly"
 					options={[
 						{ title: "Yes", value: true },
 						{ title: "No", value: false },
