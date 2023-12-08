@@ -57,8 +57,9 @@ function CheckoutModal(props: CheckoutModalProps) {
 					</Row>
 					<ThemeButton
 								icon={<CartFill size={24} />}
-								onClick={function (): {} {
-									throw new Error("Function not implemented.");
+								onClick={() => {
+									fetch('http://localhost:3000/listings/' + props.data._id, { method: 'DELETE' });
+									window.location.reload();
 								}}							
                     >
                     Confirm Payment
