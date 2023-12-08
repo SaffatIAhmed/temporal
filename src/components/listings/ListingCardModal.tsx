@@ -69,20 +69,24 @@ function ListingCardModal(props: ListingCardModalProps) {
 							gap: 32,
 						}}
 					>
+
 						<ThemeButton
 							icon={<Star size={24} />}
-							content="Save"
 							onClick={function (): {} {
 								throw new Error("Function not implemented.");
 							}}
-						/>
+						>
+							Save
+						</ThemeButton>
+
 						<ThemeButton
 							icon={<CartFill size={24} />}
-							content="Make Payment"
 							onClick={function (): {} {
 								throw new Error("Function not implemented.");
 							}}
-						/>
+						>
+							Make Payment
+						</ThemeButton>
 					</div>
 					<Row style={{ width: "100%" }}>
 						<Col>
