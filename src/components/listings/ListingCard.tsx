@@ -3,6 +3,7 @@ import { CartFill, Star } from "react-bootstrap-icons";
 import { ListingCardData } from "../../utils/Interfaces";
 import { useState } from "react";
 import ListingCardModal from "./ListingCardModal";
+import CheckoutModal from "./CheckoutModal";
 import IconButton from "../base/IconButton";
 
 interface ListingCardProps {
@@ -12,6 +13,7 @@ interface ListingCardProps {
 function ListingCard({ data: props }: ListingCardProps) {
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 
 	return (
 		<>
@@ -63,10 +65,9 @@ function ListingCard({ data: props }: ListingCardProps) {
 							/>
 							<IconButton
 								icon={<CartFill size={24} />}
-								onClick={function (): {} {
-									throw new Error(
-										"Function not implemented."
-									);
+								onClick={() => {
+									setIsCheckoutModalOpen(true);
+									return {};
 								}}
 							/>
 						</Col>
@@ -78,6 +79,11 @@ function ListingCard({ data: props }: ListingCardProps) {
 				data={props}
 				showModal={isModalOpen}
 				handleClose={() => setIsModalOpen(false)}
+			/>
+			<CheckoutModal
+				data={props}
+				showModal={isCheckoutModalOpen}
+				handleClose={() => setIsCheckoutModalOpen(false)}
 			/>
 		</>
 	);
