@@ -1,121 +1,46 @@
 import ListingCardGrid from "../components/listings/ListingCardGrid";
 import { ListingCardData } from "../utils/Interfaces";
+import FetchData from "../components/common/FetchData";
+import React, { Component, useState, useEffect } from "react";
 
 function BrowsePage() {
+	const [fetchedData, setData] = useState<ListingCardData[]>([]);
+	
+	/*
 	const dummyData: ListingCardData[] = [
 		{
-			id: 10,
-			address: {
-				street: "2600 East Renner Road",
-				neighborhood: "Crowley Park",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 730,
-			isAvaliable: true,
-		},
-		{
-			id: 20,
-			address: {
-				street: "601 Dover Drive",
-				neighborhood: "Cottonwood Heights",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 1200,
-			isAvaliable: true,
-		},
-		{
-			id: 30,
-			address: {
-				street: "1903 North Waterview Drive",
-				neighborhood: "J. J. Pierce",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 800,
-			isAvaliable: true,
-		},
-		{
-			id: 40,
-			address: {
-				street: "1913 Eastfield Drive",
-				neighborhood: "Berkner Park",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 1500,
-			isAvaliable: true,
-		},
-		{
-			id: 50,
-			address: {
-				street: "2090 East Arapaho Road",
-				neighborhood: "Duck Creek",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 500,
-			isAvaliable: true,
-		},
-		{
-			id: 60,
-			address: {
-				street: "3000 Northside Boulevard",
-				neighborhood: "University Village",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 730,
-			isAvaliable: true,
-		},
-		{
-			id: 70,
-			address: {
-				street: "4555 Red Bard Drive",
-				neighborhood: "UBreckenridge",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 900,
-			isAvaliable: true,
-		},
-		{
-			id: 80,
-			address: {
-				street: "672 Matthew Place",
-				neighborhood: "Telecom Corridor",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 1000,
-			isAvaliable: true,
-		},
-		{
-			id: 90,
-			address: {
-				street: "1114 Ridgeway Circle",
-				neighborhood: "Cottonwood Heights",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 1125,
-			isAvaliable: true,
-		},
-		{
-			id: 100,
-			address: {
-				street: "672 Matthew Place",
-				neighborhood: "Telecom Corridor",
-				city: "Richardson",
-				state: "TX",
-			},
-			rent: 1000,
-			isAvaliable: true,
+			_id: 123,
+			postedBy: "6549cf50a4c97802fed8ccd1",
+			title: "New Accommodation available",
+			apartmentNumber: "1122",
+			address:"Post Office Street",
+			city: "Frisco",
+			state: "TX",
+			zipcode:"75080",
+			bedrooms: "1",
+			bathrooms:"1", 
+			monthlyRent: "950",
+			utilitiesAmt: "50",
+			listingType: "Permanent",
+			startDate: "12-01-2023",
+			endDate: "08-01-2024"
 		},
 	];
+	*/
 
-	return <ListingCardGrid dataList={dummyData} />;
+
+
+	useEffect(() => {
+		FetchData('http://localhost:3000/listings')
+		.then(([data]) => {
+			setData(data);
+			//console.log(fetchedData);
+		});
+	  }, []);
+
+	return <ListingCardGrid dataList={fetchedData} />;
 }
+
+
 
 export default BrowsePage;

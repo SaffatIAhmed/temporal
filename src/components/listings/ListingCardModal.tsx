@@ -14,17 +14,20 @@ interface ListingCardModalProps {
 function ListingCardModal(props: ListingCardModalProps) {
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+	//const picID = Number(props.data._id.substring(0,2));
+	const picID = props.data.monthlyRent % 1000;
+
 
 	return (
 		<>
 			<Modal show={props.showModal} onHide={props.handleClose} size="lg">
 				<Modal.Header closeButton>
 					<Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
-						{props.data.address.neighborhood +
+						{props.data.address +
 							", " +
-							props.data.address.city +
+							props.data.city +
 							" " +
-							props.data.address.state}
+							props.data.state}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body style={{ padding: 32 }}>
@@ -39,7 +42,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 						<Carousel>
 							<Carousel.Item>
 								<Image
-									src={`https://picsum.photos/id/${props.data.id}/640/360`}
+									src={`https://picsum.photos/id/${picID}/640/360`}
 									onLoad={() => setImgLoading(false)}
 									rounded
 								/>
@@ -52,14 +55,14 @@ function ListingCardModal(props: ListingCardModalProps) {
 							</Carousel.Item>
 							<Carousel.Item>
 								<Image
-									src={`https://picsum.photos/id/${props.data.id + 1
+									src={`https://picsum.photos/id/${picID + 1
 										}/640/360`}
 									rounded
 								/>
 							</Carousel.Item>
 							<Carousel.Item>
 								<Image
-									src={`https://picsum.photos/id/${props.data.id + 2
+									src={`https://picsum.photos/id/${picID + 2
 										}/640/360`}
 									rounded
 								/>
@@ -104,30 +107,27 @@ function ListingCardModal(props: ListingCardModalProps) {
 									}}
 								>
 									<div>Rent:</div>
-									<div>${props.data.rent}</div>
-									<div>Shared: </div>
-									<div>TBD</div>
-									<div>Preferred:</div>
-									<div>TBD</div>
+									<div>${props.data.monthlyRent}</div>
+									<div>Utilities: </div>
+									<div>${props.data.utilitiesAmt}</div>
 								</div>
 							</Col>
 							<Col>
 								<div>
-									<b>Amenities</b>
+									<b>Bed/Bath</b>
 									<hr style={{ marginBlock: 8 }} />
 									<ul
 										style={{
 											marginTop: 12,
 										}}
 									>
-										<li>TBD</li>
-										<li>TBD</li>
-										<li>TBD</li>
+										<li>Bedrooms - {props.data.bedrooms}</li>
+										<li>Bathrooms - {props.data.bathrooms}</li>
 									</ul>
 								</div>
 							</Col>
 							<Col>
-								<b>Policies</b>
+								<b>Avaliablity</b>
 								<hr style={{ marginBlock: 8 }} />
 								<div
 									style={{
@@ -137,16 +137,12 @@ function ListingCardModal(props: ListingCardModalProps) {
 										gap: "6px 0px",
 									}}
 								>
-									<div>Min. Stay</div>
-									<div>TBD</div>
-									<div>Pet Friendly:</div>
-									<div>TBD</div>
-									<div>Smoking:</div>
-									<div>TBD</div>
-									<div>Guests:</div>
-									<div>TBD</div>
-									<div>Quiet Hours:</div>
-									<div>TBD</div>
+									<div>Type:</div>
+									<div>{props.data.listingType}</div>
+									<div>Start Date:</div>
+									<div>{props.data.startDate}</div>
+									<div>End Date:</div>
+									<div>{props.data.endDate}</div>
 								</div>
 							</Col>
 						</Row>

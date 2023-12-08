@@ -14,6 +14,10 @@ function ListingCard({ data: props }: ListingCardProps) {
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+	//const picID = Number(props._id.substring(0,2));
+	const picID = props.monthlyRent % 1000;
+
+
 
 	return (
 		<>
@@ -23,7 +27,7 @@ function ListingCard({ data: props }: ListingCardProps) {
 			>
 				<Card.Img
 					variant="top"
-					src={`https://picsum.photos/id/${props.id}/360/240`}
+					src={`https://picsum.photos/id/${picID}/360/240`}
 					onLoad={() => setImgLoading(false)}
 				/>
 				{imgLoading && (
@@ -41,17 +45,17 @@ function ListingCard({ data: props }: ListingCardProps) {
 									fontWeight: "bold",
 								}}
 							>
-								{props.address.street}
+								{props.address}
 							</div>
 							<div>
-								{props.address.neighborhood +
+								{props.address +
 									" • " +
-									props.address.city +
+									props.city +
 									", " +
-									props.address.state}
+									props.state}
 							</div>
 							<div>
-								<b>${props.rent}</b> • Available Now
+								<b>${props.monthlyRent}</b> • Available Now
 							</div>
 						</Col>
 						<Col sm={2} style={{ cursor: "default" }}>

@@ -16,13 +16,11 @@ function CheckoutModal(props: CheckoutModalProps) {
 		<Modal show={props.showModal} onHide={props.handleClose} size="lg">
 			<Modal.Header closeButton>
 				<Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
-					{props.data.address.neighborhood +
+					{props.data.address +
 						", " +
-						props.data.address.city +
+						props.data.city +
 						" " +
-						props.data.address.state + 
-						" - " +
-						props.data.address.street
+						props.data.state 
 						}
 				</Modal.Title>
 			</Modal.Header>
@@ -53,7 +51,7 @@ function CheckoutModal(props: CheckoutModalProps) {
 								}}
 							>
 								<div>Rent:</div>
-								<div>${props.data.rent}</div>
+								<div>${props.data.monthlyRent}</div>
 							</div>
 						</Col>
 					</Row>

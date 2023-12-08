@@ -1,7 +1,11 @@
 import ListingCardGrid from "../components/listings/ListingCardGrid";
 import { ListingCardData } from "../utils/Interfaces";
+import FetchData from "../components/common/FetchData";
+import React, { Component, useState, useEffect } from "react";
 
 function SavedPage() {
+	const [fetchedData, setData] = useState<ListingCardData[]>([]);
+	/*
 	const dummyData: ListingCardData[] = [
 		{
 			id: 60,
@@ -59,8 +63,18 @@ function SavedPage() {
 			isAvaliable: true,
 		},
 	];
+	*/
 
-	return <ListingCardGrid dataList={dummyData} />;
+	useEffect(() => {
+		//Change to users saved listings
+		FetchData('http://localhost:3000/listings')
+		.then(([data]) => {
+			setData(data);
+			//console.log(fetchedData);
+		});
+	  }, []);
+
+	return <ListingCardGrid dataList={fetchedData} />;
 }
 
 export default SavedPage;
