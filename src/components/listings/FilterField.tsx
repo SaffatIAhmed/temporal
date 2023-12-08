@@ -8,7 +8,10 @@ interface FilterFieldProps {
 function FilterSelect(props: FilterFieldProps) {
 	return (
 		<FloatingLabel label={props.label}>
-			<Form.Control type={props.type} style={{ width: 100 }} />
+			<Form.Control
+				type={props.type}
+				style={{ width: props.type === "date" ? 160 : 139 }}
+			/>
 		</FloatingLabel>
 	);
 }
