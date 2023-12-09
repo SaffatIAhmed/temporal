@@ -7,6 +7,7 @@ import CheckoutModal from "./CheckoutModal";
 import IconButton from "../base/IconButton";
 import ThemeButton from "../base/ThemedButton";
 import DeleteModel from "./DeleteModal";
+import CreateListingModal from "./CreateListingModal";
 
 interface ListingCardProps {
   data: ListingCardData;
@@ -17,6 +18,7 @@ function ListingCard({ data: props }: ListingCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isCreateListingModelOpen, setCreateListingModalOpen] = useState(false);
   //const picID = Number(props._id.substring(0,2));
   const picID = props.monthlyRent % 1000;
 
@@ -80,7 +82,8 @@ function ListingCard({ data: props }: ListingCardProps) {
               <ThemeButton
                 icon={<PencilSquare size={24} />}
                 onClick={function (): {} {
-                  throw new Error("Function not implemented.");
+                  setCreateListingModalOpen(true);
+                  return {};
                 }}
               >
                 Edit
@@ -89,7 +92,6 @@ function ListingCard({ data: props }: ListingCardProps) {
                 icon={<Trash3 size={24} />}
                 onClick={() => {
                   setIsDeleteModalOpen(true);
-                  setIsModalOpen(false);
                   return {};
                 }}
               >
@@ -115,7 +117,11 @@ function ListingCard({ data: props }: ListingCardProps) {
         showModal={isDeleteModalOpen}
         handleClose={() => setIsDeleteModalOpen(false)}
       />
-      
+      <CreateListingModal 
+        data={props}
+        showModal={isCreateListingModelOpen}
+        handleClose={() => setCreateListingModalOpen(false)}
+      />
     </>
   );
 }

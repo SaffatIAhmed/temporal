@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import moment from 'moment'
 
 import "../../styles/App.scss";
+import { ListingCardData } from '../../utils/Interfaces';
 
 interface CreateListingSchema {
     title: string,
@@ -24,7 +25,13 @@ interface CreateListingSchema {
     endDate: string,
 };
 
-function CreateListingModal() {
+interface CreateListingProps {
+    data: ListingCardData,
+    showModal: boolean,
+    handleClose: () => any;
+}
+
+function CreateListingModal(props : CreateListingProps) {
     const formatDate = (date: string | number | Date) => {
         return moment(date).format("MM/DD/YYYY");
     }
@@ -63,15 +70,48 @@ function CreateListingModal() {
         setShow(false);
     }
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    return (
-        <>
-            <Button variant="success" onClick={handleShow}>
-                Add New Listing
-            </Button>
+    var listingInitalValues = {
+        title: "",
+        apartmentNumber: "",
+        address: "",
+        city: "",
+        state: "",
+        zipcode: "",
+        bedrooms: "",
+        bathrooms: "",
+        monthlyRent: "",
+        utilitiesAmt: "",
+        listingType: "Permanent",
+        startDate: "",
+        endDate: "",
+    }
 
-            <Modal show={show} onHide={handleClose}>
+    if ('data' in props) {
+        console.log('yay data is here');
+        listingInitalValues = {
+            title: "",
+            apartmentNumber: "",
+            address: props.data?.address,
+            city: props.data?.city,
+            state: props.data?.state,
+            zipcode: props.data?.zipcode,
+            bedrooms: props.data?.bedrooms,
+            bathrooms: props.data?.bathrooms,
+            monthlyRent: props.data?.monthlyRent,
+            utilitiesAmt: "",
+            listingType: props.data?.listingType,
+            startDate: props.data?.startDate,
+            endDate: props.data?.endDate,
+        }
+    }
+    else {
+        console.log('Aw no data');
+    }
+
+    //const handleClose = () => setShow(false);
+    //const handleShow = () => setShow(true);
+    return (
+            <Modal show={props.showModal} onHide={props.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create New Listing</Modal.Title>
                 </Modal.Header>
@@ -94,7 +134,7 @@ function CreateListingModal() {
                             listingType: "Permanent",
                             startDate: "",
                             endDate: "",
-                        }}
+                        }} 
                     >
                         {({ handleSubmit, handleChange, values, errors, setFieldValue, isValid }) => (
                             <Form noValidate onSubmit={handleSubmit}>
@@ -291,7 +331,6 @@ function CreateListingModal() {
                     </Formik>
                 </Modal.Body>
             </Modal >
-        </>
     );
 }
 
