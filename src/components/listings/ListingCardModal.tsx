@@ -17,6 +17,15 @@ function ListingCardModal(props: ListingCardModalProps) {
 	//const picID = Number(props.data._id.substring(0,2));
 	const picID = props.data.rent % 1000;
 
+	function convertBoolean(input: boolean){
+		return (input ? "Yes" : "No");
+	}
+
+	function convertDate(input: string){
+		const curDate = new Date(input);
+		
+		return curDate.getMonth() + "/" + curDate.getDate() + "/" + curDate.getFullYear();
+	}
 
 	return (
 		<>
@@ -117,9 +126,9 @@ function ListingCardModal(props: ListingCardModalProps) {
 									<div>Preferred Gender: </div>
 									<div>{props.data.prefGender}</div>
 									<div>Start Date:</div>
-									<div>{props.data.startDate}</div>
+									<div>{convertDate(props.data.startDate)}</div>
 									<div>End Date:</div>
-									<div>{props.data.endDate}</div>
+									<div>{convertDate(props.data.endDate)}</div>
 								</div>
 							</Col>
 							<Col>
@@ -131,15 +140,15 @@ function ListingCardModal(props: ListingCardModalProps) {
 											marginTop: 12,
 										}}
 									>
-										<li>Heating & Cooling: {props.data.heatingCooling.toString()}</li>
-										<li>Laundry & Dryer: {props.data.laundryDryer.toString()}</li>
-										<li>Internet: {props.data.internet.toString()}</li>
-										<li>Car Parking: {props.data.carParking.toString()}</li>
-										<li>TV: {props.data.tv.toString()}</li>
-										<li>Gym: {props.data.gym.toString()}</li>
-										<li>Pool: {props.data.pool.toString()}</li>
-										<li>Patio: {props.data.patio.toString()}</li>
-										<li>Bathtub: {props.data.bath.toString()}</li>
+										<li>Heating & Cooling: {convertBoolean(props.data.heatingCooling)}</li>
+										<li>Laundry & Dryer: {convertBoolean(props.data.laundryDryer)}</li>
+										<li>Internet: {convertBoolean(props.data.internet)}</li>
+										<li>Car Parking: {convertBoolean(props.data.carParking)}</li>
+										<li>TV: {convertBoolean(props.data.tv)}</li>
+										<li>Gym: {convertBoolean(props.data.gym)}</li>
+										<li>Pool: {convertBoolean(props.data.pool)}</li>
+										<li>Patio: {convertBoolean(props.data.patio)}</li>
+										<li>Bathtub: {convertBoolean(props.data.bath)}</li>
 									</ul>
 								</div>
 							</Col>
@@ -155,11 +164,11 @@ function ListingCardModal(props: ListingCardModalProps) {
 									}}
 								>
 									<div>Pets Allowed?:</div>
-									<div>{props.data.allowedPets.toString()}</div>
+									<div>{convertBoolean(props.data.allowedPets)}</div>
 									<div>Smoking Allowed?</div>
-									<div>{props.data.allowedSmoking.toString()}</div>
+									<div>{convertBoolean(props.data.allowedSmoking)}</div>
 									<div>Guests Allowed?</div>
-									<div>{props.data.allowedGuests.toString()}</div>
+									<div>{convertBoolean(props.data.allowedGuests)}</div>
 									<div>Quiet Hours Start:</div>
 									<div>{props.data.quietHoursStart}</div>
 									<div>Quiet Hours Until:</div>
