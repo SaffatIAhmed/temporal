@@ -7,7 +7,6 @@ import CreateListingModal from "../components/listings/CreateListingModal";
 
 function BrowsePage() {
   const [fetchedData, setData] = useState<ListingCardData[]>([]);
-  //const { isLoggedIn, role } = useContext(UserContext);
 
   const dummyData: ListingCardData[] = [
     {
@@ -33,7 +32,6 @@ function BrowsePage() {
   useEffect(() => {
     FetchData("http://localhost:3000/listings").then(([data]) => {
       setData(data);
-      console.log(fetchedData);
     });
   }, []);
 
