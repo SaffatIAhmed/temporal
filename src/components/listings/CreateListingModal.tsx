@@ -9,19 +9,34 @@ import moment from 'moment'
 import "../../styles/App.scss";
 
 interface CreateListingSchema {
-    title: string,
-    apartmentNumber: string,
-    address: string,
-    city: string,
-    state: string,
-    zipcode: string,
-    bedrooms: string,
-    bathrooms: string,
-    monthlyRent: string,
-    utilitiesAmt: string,
-    listingType: string,
-    startDate: string,
-    endDate: string,
+	suiteNumber: string,
+	street: string,
+	neighborhood: string,
+	city: string,
+	state: string,
+	zipcode: string,
+	bedrooms: string,
+	bathrooms: string,
+	rent: string,
+	utilities: string,
+	prefGender: string,
+	privateRoom: string,
+	heatingCooling: string,
+	laundryDryer: string,
+	internet: string,
+	carParking: string,
+	tv: string,
+	gym: string,
+	pool: string,
+	patio: string,
+	bath: string,
+	allowedPets: string,
+	allowedSmoking: string,
+	allowedGuests: string,
+	quietHoursStart: string,
+	quietHoursEnd: string,
+	startDate: string,
+	endDate: string,
 };
 
 function CreateListingModal() {
@@ -29,8 +44,9 @@ function CreateListingModal() {
         return moment(date).format("MM/DD/YYYY");
     }
     const schema = yup.object().shape({
-        title: yup.string().matches(/^[a-zA-Z0-9 ,\-\(\)]*$/, "Title can contain only alphabet, digits, ',' ,'-', '(', ')'").max(60).required("Title is a required field"),
-        apartmentNumber: yup.number().positive().required("Apartment Number is a required field"),
+        street: yup.string().max(64).required("Street is a required field"),
+        neigborhood: yup.string().max(64).required("Neigborhood is a required field"),
+        suiteNumber: yup.number().positive().required("Suite Number is a required field"),
         address: yup.string().max(64).required("Address is a required field"),
         city: yup.string().matches(/^[a-zA-Z]*$/, "City must only contain alphabet").max(15).required("City is a required field"),
         state: yup.string().matches(/^[a-zA-Z]*$/, "State must only contain alphabet").required("State is a required field").length(2),
@@ -40,9 +56,24 @@ function CreateListingModal() {
             .max(5, 'Must be exactly 5 digits'),
         bedrooms: yup.number().required("Bedrooms is a required field").positive(),
         bathrooms: yup.number().required("Bathrooms is a required field").positive(),
-        monthlyRent: yup.number().required("Monthly Rent is a required field").positive(),
-        utilitiesAmt: yup.number().required("Utilities Amount is a required field").positive(),
-        listingType: yup.string().required("Listing Type is a required field").oneOf(["Temporary", "Permanent"]),
+        rent: yup.number().required("Monthly Rent is a required field").positive(),
+        utilities: yup.number().required("Utilities Amount is a required field").positive(),
+        prefGender: yup.string().max(64).required("Preferred Gender is a required field"),
+        privateRoom: yup.boolean().required("Private Room is a required field"),
+        heatingCooling: yup.boolean().required("Heating & Cooling is a required field"),
+        laundryDryer: yup.boolean().required("Laundry & Dryer is a required field"),
+        internet: yup.boolean().required("Internet is a required field"),
+        carParking: yup.boolean().required("Car Parking is a required field"),
+        tv: yup.boolean().required("TV is a required field"),
+        gym: yup.boolean().required("Gym is a required field"),
+        pool: yup.boolean().required("Pool is a required field"),
+        patio: yup.boolean().required("Patio is a required field"),
+        bath: yup.boolean().required("Bathtub is a required field"),
+        allowedPets: yup.boolean().required("Pets Allowed is a required field"),
+        allowedSmoking: yup.boolean().required("Smoking Allowed is a required field"),
+        allowedGuests: yup.boolean().required("Guests Allowed is a required field"),
+        quietHoursStart: yup.string().max(64).required("Quiet Hours Start is a required field"),
+        quietHoursEnd: yup.string().max(64).required("Quiet Hours End is a required field"),
         startDate: yup.date().required("Start Date is a required field").test('test-startDate', 'Start Date should be today or in future', (currDate: Date) => {
             const newDate = new Date();
             newDate.setHours(0, 0, 0, 0);
@@ -81,63 +112,78 @@ function CreateListingModal() {
                         validationSchema={schema}
                         onSubmit={handleFormSubmit}
                         initialValues={{
-                            title: "",
-                            apartmentNumber: "",
-                            address: "",
+                            suiteNumber: "",
+                            street: "",
+                            neighborhood: "",
                             city: "",
                             state: "",
                             zipcode: "",
                             bedrooms: "",
                             bathrooms: "",
-                            monthlyRent: "",
-                            utilitiesAmt: "",
-                            listingType: "Permanent",
+                            rent: "",
+                            utilities: "",
+                            prefGender: "",
+                            privateRoom: "",
+                            heatingCooling: "",
+                            laundryDryer: "",
+                            internet: "",
+                            carParking: "",
+                            tv: "",
+                            gym: "",
+                            pool: "",
+                            patio: "",
+                            bath: "",
+                            allowedPets: "",
+                            allowedSmoking: "",
+                            allowedGuests: "",
+                            quietHoursStart: "",
+                            quietHoursEnd: "",
                             startDate: "",
-                            endDate: "",
+                            endDate: ""
                         }}
                     >
                         {({ handleSubmit, handleChange, values, errors, setFieldValue, isValid }) => (
                             <Form noValidate onSubmit={handleSubmit}>
-                                <FloatingLabel controlId="floatingTitle" label="Title" className="mb-3">
+                                <FloatingLabel controlId="floatingStreet" label="Street" className="mb-3">
                                     <Form.Control
                                         type="text"
-                                        name="title"
-                                        placeholder="Title"
-                                        value={values.title}
+                                        name="street"
+                                        placeholder="Street"
+                                        value={values.street}
                                         onChange={handleChange}
-                                        isInvalid={!!errors.title}
+                                        isInvalid={!!errors.street}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.title}
+                                        {errors.street}
                                     </Form.Control.Feedback>
                                 </FloatingLabel>
-                                <FloatingLabel controlId="floatingApartmentNumber" label="Apartment Number" className="mb-3">
+                                <FloatingLabel controlId="floatingSuiteNumber" label="Suite Number" className="mb-3">
                                     <Form.Control
                                         type="text"
-                                        name="apartmentNumber"
-                                        placeholder="Apartment Number"
-                                        value={values.apartmentNumber}
+                                        name="suiteNumber"
+                                        placeholder="Suite Number"
+                                        value={values.suiteNumber}
                                         onChange={(event) => {
                                             handleChange(event);
-                                            setFieldValue("apartmentNumber", event.target.value.replace(/\D/g, ''));
+                                            setFieldValue("suiteNumber", event.target.value.replace(/\D/g, ''));
                                         }}
-                                        isInvalid={!!errors.apartmentNumber}
+                                        isInvalid={!!errors.suiteNumber}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.apartmentNumber}
+                                        {errors.suiteNumber}
                                     </Form.Control.Feedback>
                                 </FloatingLabel>
-                                <FloatingLabel controlId="floatingAddress" label="Address" className="mb-3">
+                                <FloatingLabel controlId="floatingNeighborhood" label="Neighborhood" className="mb-3">
                                     <Form.Control
                                         type="text"
-                                        name="address"
-                                        placeholder="Address"
-                                        value={values.address}
+                                        name="neighborhood"
+                                        placeholder="Neighborhood"
+                                        value={values.neighborhood}
                                         onChange={handleChange}
-                                        isInvalid={!!errors.address}
+                                        isInvalid={!!errors.neighborhood}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.address}
+                                        {errors.neighborhood}
                                     </Form.Control.Feedback>
                                 </FloatingLabel>
                                 <FloatingLabel controlId="floatingCity" label="City" className="mb-3">
@@ -217,43 +263,245 @@ function CreateListingModal() {
                                         {errors.bathrooms}
                                     </Form.Control.Feedback>
                                 </FloatingLabel>
-                                <FloatingLabel controlId="floatingMonthlyRent" label="Monthly Rent($)" className="mb-3">
+                                <FloatingLabel controlId="floatingRent" label="Rent($)" className="mb-3">
                                     <Form.Control
                                         type="text"
-                                        name="monthlyRent"
-                                        placeholder="Monthly Rent"
-                                        value={values.monthlyRent}
+                                        name="rent"
+                                        placeholder="Rent"
+                                        value={values.rent}
                                         onChange={(event) => {
                                             handleChange(event);
-                                            setFieldValue("monthlyRent", event.target.value.replace(/\D/g, ''));
+                                            setFieldValue("rent", event.target.value.replace(/\D/g, ''));
                                         }}
-                                        isInvalid={!!errors.monthlyRent}
+                                        isInvalid={!!errors.rent}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.monthlyRent}
+                                        {errors.rent}
                                     </Form.Control.Feedback>
                                 </FloatingLabel>
-                                <FloatingLabel controlId="floatingUtilitiesAmount" label="Utilities Amount($)" className="mb-3">
+                                <FloatingLabel controlId="floatingUtilities" label="Utilities($)" className="mb-3">
                                     <Form.Control
                                         type="text"
-                                        name="utilitiesAmt"
-                                        placeholder="Utilities Amount"
-                                        value={values.utilitiesAmt}
+                                        name="utilities"
+                                        placeholder="Utilities"
+                                        value={values.utilities}
                                         onChange={(event) => {
                                             handleChange(event);
-                                            setFieldValue("utilitiesAmt", event.target.value.replace(/\D/g, ''));
+                                            setFieldValue("utilities", event.target.value.replace(/\D/g, ''));
                                         }}
-                                        isInvalid={!!errors.utilitiesAmt}
+                                        isInvalid={!!errors.utilities}
                                     />
                                     <Form.Control.Feedback type="invalid">
-                                        {errors.utilitiesAmt}
+                                        {errors.utilities}
                                     </Form.Control.Feedback>
                                 </FloatingLabel>
-                                <FloatingLabel controlId="floatingListingType" label="Listing Type" className="mb-3">
-                                    <Form.Select>
-                                        <option value="Temporary">Temporary</option>
-                                        <option value="Permanent">Permanent</option>
-                                    </Form.Select>
+                                <FloatingLabel controlId="floatingPreferredGender" label="Preferred Gender" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="prefGender"
+                                        placeholder="Preferred Gender"
+                                        value={values.prefGender}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.prefGender}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.prefGender}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingPrivateRoom" label="Private Room" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="privateRoom"
+                                        placeholder="Private Room"
+                                        value={values.privateRoom}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.privateRoom}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.privateRoom}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingHeatingCooling" label="Heating & Cooling" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="heatingCooling"
+                                        placeholder="Heating & Cooling"
+                                        value={values.heatingCooling}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.heatingCooling}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.heatingCooling}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingLaundryDryer" label="Laundry & Dryer" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="laundryDryer"
+                                        placeholder="Laundry & Dryer"
+                                        value={values.laundryDryer}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.laundryDryer}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.laundryDryer}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingInternet" label="Internet" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="internet"
+                                        placeholder="Internet"
+                                        value={values.internet}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.internet}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.internet}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingCarParking" label="Car Parking" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="carParking"
+                                        placeholder="Car Parking"
+                                        value={values.carParking}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.carParking}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.carParking}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingTV" label="TV" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="tv"
+                                        placeholder="TV"
+                                        value={values.tv}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.tv}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.tv}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingGym" label="Gym" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="gym"
+                                        placeholder="Gym"
+                                        value={values.gym}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.gym}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.gym}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingPool" label="Pool" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="pool"
+                                        placeholder="Pool"
+                                        value={values.pool}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.pool}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.pool}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingPatio" label="Patio" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="patio"
+                                        placeholder="Patio"
+                                        value={values.patio}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.patio}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.patio}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingBath" label="Bath Tub" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="bath"
+                                        placeholder="Bath"
+                                        value={values.bath}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.bath}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.bath}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingPetsAllowed" label="Pets Allowed?" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="allowedPets"
+                                        placeholder="Pets Allowed"
+                                        value={values.allowedPets}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.allowedPets}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.allowedPets}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingSmokingAllowed" label="Smoking Allowed?" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="allowedSmoking"
+                                        placeholder="Smoking Allowed"
+                                        value={values.allowedSmoking}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.allowedSmoking}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.allowedSmoking}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingGuestsAllowed" label="Guests Allowed?" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="allowedGuests"
+                                        placeholder="Guests Allowed"
+                                        value={values.allowedGuests}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.allowedGuests}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.allowedGuests}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingQuietHoursStart" label="Quiet Hours Start Time" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="quietHoursStart"
+                                        placeholder="QuietHoursStart"
+                                        value={values.quietHoursStart}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.quietHoursStart}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.quietHoursStart}
+                                    </Form.Control.Feedback>
+                                </FloatingLabel>
+                                <FloatingLabel controlId="floatingQuietHoursEnd" label="Quiet Hours End Time" className="mb-3">
+                                    <Form.Control
+                                        type="text"
+                                        name="quietHoursEnd"
+                                        placeholder="QuietHoursEnd"
+                                        value={values.quietHoursEnd}
+                                        onChange={handleChange}
+                                        isInvalid={!!errors.quietHoursEnd}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.quietHoursEnd}
+                                    </Form.Control.Feedback>
                                 </FloatingLabel>
                                 <FloatingLabel controlId="floatingStartDate" label="Start Date" className="mb-3">
                                     <Form.Control
