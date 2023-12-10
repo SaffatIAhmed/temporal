@@ -29,26 +29,19 @@ function ListingCardGrid(props: ListingCardGridProps) {
 			>
 				<FilterField label="Min. Rent" />
 				<FilterField label="Max. Rent" />
+				<FilterField label="Bedroom No." />
+				<FilterField label="Bathroom No." />
 				<FilterSelect
-					label="Type of Place"
+					label="Preferred Gender"
 					options={[
-						{ title: "Apartment", value: "apartment" },
-						{ title: "House", value: "house" },
-						{ title: "Condo", value: "condo" },
+						{ title: "Male", value: true },
+						{ title: "Female", value: false }
 					]}
 				/>
 				<FilterSelect
-					label="Pet Friendly"
+					label="Private Room?"
 					options={[
-						{ title: "Yes", value: true },
-						{ title: "No", value: false },
-					]}
-				/>
-				<FilterSelect
-					label="Smoke Friendly"
-					options={[
-						{ title: "Yes", value: true },
-						{ title: "No", value: false },
+						{ title: "Yes", value: true }
 					]}
 				/>
 			</div>

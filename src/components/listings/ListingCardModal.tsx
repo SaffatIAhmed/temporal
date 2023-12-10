@@ -15,7 +15,7 @@ function ListingCardModal(props: ListingCardModalProps) {
   const [imgLoading, setImgLoading] = useState(true);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   //const picID = Number(props.data._id.substring(0,2));
-  const picID = props.data.monthlyRent % 1000;
+  const picID = props.data.rent % 1000;
 
   return (
     <>
@@ -100,9 +100,9 @@ function ListingCardModal(props: ListingCardModalProps) {
                   }}
                 >
                   <div>Rent:</div>
-                  <div>${props.data.monthlyRent}</div>
+                  <div>${props.data.rent}</div>
                   <div>Utilities: </div>
-                  <div>${props.data.utilitiesAmt}</div>
+                  <div>${props.data.utilities}</div>
                 </div>
               </Col>
               <Col>
@@ -130,12 +130,10 @@ function ListingCardModal(props: ListingCardModalProps) {
                     gap: "6px 0px",
                   }}
                 >
-                  <div>Type:</div>
-                  <div>{props.data.listingType}</div>
                   <div>Start Date:</div>
-                  <div>{props.data.startDate}</div>
+                  <div>{props.data.move_in_date}</div>
                   <div>End Date:</div>
-                  <div>{props.data.endDate}</div>
+                  <div>{props.data.move_out_date}</div>
                 </div>
               </Col>
             </Row>
