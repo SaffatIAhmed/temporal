@@ -15,7 +15,7 @@ function ListingCard({ data: props }: ListingCardProps) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 	//const picID = Number(props._id.substring(0,2));
-	const picID = props.monthlyRent % 1000;
+	const picID = props.rent % 1000;
 
 
 
@@ -45,17 +45,17 @@ function ListingCard({ data: props }: ListingCardProps) {
 									fontWeight: "bold",
 								}}
 							>
-								{props.address}
+								{props.street}
 							</div>
 							<div>
-								{props.address +
+								{props.street +
 									" • " +
 									props.city +
 									", " +
 									props.state}
 							</div>
 							<div>
-								<b>${props.monthlyRent}</b> • Available Now
+								<b>${props.rent}</b> • Available Now
 							</div>
 						</Col>
 						<Col sm={2} style={{ cursor: "default" }}>
