@@ -23,7 +23,6 @@ function ListingCardGrid(props: ListingCardGridProps) {
 				padding: 0,
 			}}
 		>
-			<FilterBar dataList={props.dataList}/>
 			<div
 				style={{
 					marginBottom: 32,
