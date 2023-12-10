@@ -98,7 +98,6 @@ function CreateListingModal() {
       "http://localhost:3000/:id/save" 
       );
     const data = await response.json();
-    console.log(data);
     setShow(false);
   };
 
