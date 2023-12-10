@@ -6,9 +6,9 @@ import { UserContext } from "../state-management/contexts/UserContext";
 
 function BrowsePage() {
   const [fetchedData, setData] = useState<ListingCardData[]>([]);
-  const { isLoggedIn, role } = useContext(UserContext);
+  //const { isLoggedIn, role } = useContext(UserContext);
 
-  const dummyData: ListingCardData[] = [
+  /*const dummyData: ListingCardData[] = [
     {
       _id: "123",
       postedBy: "6549cf50a4c97802fed8ccd1",
@@ -26,16 +26,16 @@ function BrowsePage() {
       startDate: "12-01-2023",
       endDate: "08-01-2024",
     },
-  ];
+  ];*/
 
   useEffect(() => {
     FetchData("http://localhost:3000/listings").then(([data]) => {
       setData(data);
-      //console.log(fetchedData);
+      console.log(fetchedData);
     });
   }, []);
 
-  return <ListingCardGrid dataList={dummyData} />;
+  return <ListingCardGrid dataList={fetchedData} />;
 }
 
 export default BrowsePage;

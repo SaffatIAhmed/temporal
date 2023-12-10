@@ -86,23 +86,27 @@ function CreateListingModal(props : CreateListingProps) {
         endDate: "",
     }
 
+    /*
+    "id": 2,
+        "postedBy": 1,
+        "suitNumber": "3526",
+        "street": "800 W Renner Rd",
+        "neighborhood": "Marquis at waterview",
+        "city": "Richardson",
+        "state": "TX",
+        "zipcode": "75080",
+        "bedrooms": "2",
+        "bathrooms": "2",
+        "rent": "450",
+        "utilities": "50",
+        "prefGender": "Male",
+        "isPrivateRoom": "false",
+        "moveInDate": "2024-01-01T00:00:00.000Z",
+        "moveOutDate": "2024-03-01T00:00:00.000Z"
+    */
+
     if ('data' in props) {
         console.log('yay data is here');
-        listingInitalValues = {
-            title: "",
-            apartmentNumber: "",
-            address: props.data?.address,
-            city: props.data?.city,
-            state: props.data?.state,
-            zipcode: props.data?.zipcode,
-            bedrooms: props.data?.bedrooms,
-            bathrooms: props.data?.bathrooms,
-            monthlyRent: props.data?.monthlyRent,
-            utilitiesAmt: "",
-            listingType: props.data?.listingType,
-            startDate: props.data?.startDate,
-            endDate: props.data?.endDate,
-        }
     }
     else {
         console.log('Aw no data');
