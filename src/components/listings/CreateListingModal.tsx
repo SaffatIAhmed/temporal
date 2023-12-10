@@ -27,7 +27,7 @@ interface CreateListingSchema {
   rent: string;
   utilities: string;
   prefGender: string;
-  privateRoom: string;
+  isPrivateRoom: string;
   heatingCooling: string;
   laundryDryer: string;
   internet: string;
@@ -42,8 +42,8 @@ interface CreateListingSchema {
   allowedGuests: string;
   quietHoursStart: string;
   quietHoursEnd: string;
-  startDate: string;
-  endDate: string;
+  moveInDate: string;
+  moveOutDate: string;
 }
 
 function CreateListingModal(props: CreateListingProps) {
@@ -93,7 +93,7 @@ function CreateListingModal(props: CreateListingProps) {
       .string()
       .max(64)
       .required("Preferred Gender is a required field"),
-    privateRoom: yup.boolean().required("Private Room is a required field"),
+    isPrivateRoom: yup.boolean().required("Private Room is a required field"),
     heatingCooling: yup
       .boolean()
       .required("Heating & Cooling is a required field"),
@@ -118,12 +118,12 @@ function CreateListingModal(props: CreateListingProps) {
       .string()
       .max(64)
       .required("Quiet Hours End is a required field"),
-    startDate: yup
+    moveInDate: yup
       .date()
-      .required("Start Date is a required field")
+      .required("Move In Date is a required field")
       .test(
-        "test-startDate",
-        "Start Date should be today or in future",
+        "test-moveInDate",
+        "Move In Date should be today or in future",
         (currDate: Date) => {
           const newDate = new Date();
           newDate.setHours(0, 0, 0, 0);
@@ -132,11 +132,11 @@ function CreateListingModal(props: CreateListingProps) {
           return parsed.diff(today) >= 0;
         }
       ),
-    endDate: yup
+    moveOutDate: yup
       .date()
-      .required("End Date is a required field")
+      .required("Move Out Date is a required field")
       .min(
-        yup.ref("startDate"),
+        yup.ref("moveInDate"),
         ({ min }) => `Date needs to be after ${formatDate(min)}`
       ),
   });
@@ -159,7 +159,7 @@ function CreateListingModal(props: CreateListingProps) {
     rent: props.data?.rent.toString() || '',
     utilities: props.data?.utilities.toString() || '',
     prefGender: props.data?.prefGender || '',
-    privateRoom: props.data?.privateRoom.toString() || '',
+    isPrivateRoom: props.data?.isPrivateRoom.toString() || '',
     heatingCooling: props.data?.heatingCooling?.toString() || '',
     laundryDryer: props.data?.laundryDryer?.toString() || '',
     internet: props.data?.internet?.toString() || "",
@@ -174,8 +174,8 @@ function CreateListingModal(props: CreateListingProps) {
     allowedGuests: props.data?.allowedGuests?.toString() || '',
     quietHoursStart: props.data?.quietHoursStart || '',
     quietHoursEnd: props.data?.quietHoursEnd || '',
-    startDate: props.data?.moveInDate || '',
-    endDate: props.data?.moveOutDate || '',
+    moveInDate: props.data?.moveInDate || '',
+    moveOutDate: props.data?.moveOutDate || '',
   };
 
   return (
@@ -427,20 +427,20 @@ function CreateListingModal(props: CreateListingProps) {
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 <FloatingLabel
-                  controlId="floatingPrivateRoom"
+                  controlId="floatingisPrivateRoom"
                   label="Private Room"
                   className="mb-3"
                 >
                   <Form.Control
                     type="text"
-                    name="privateRoom"
+                    name="isPrivateRoom"
                     placeholder="Private Room"
-                    value={values.privateRoom}
+                    value={values.isPrivateRoom}
                     onChange={handleChange}
-                    isInvalid={!!errors.privateRoom}
+                    isInvalid={!!errors.isPrivateRoom}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.privateRoom}
+                    {errors.isPrivateRoom}
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 <FloatingLabel
@@ -682,38 +682,38 @@ function CreateListingModal(props: CreateListingProps) {
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 <FloatingLabel
-                  controlId="floatingStartDate"
-                  label="Start Date"
+                  controlId="floatingmoveInDate"
+                  label="Move In Date"
                   className="mb-3"
                 >
                   <Form.Control
                     type="date"
-                    name="startDate"
-                    placeholder="Start Date"
-                    value={values.startDate}
+                    name="moveInDate"
+                    placeholder="Move In Date"
+                    value={values.moveInDate}
                     onChange={handleChange}
-                    isInvalid={!!errors.startDate}
+                    isInvalid={!!errors.moveInDate}
                     pattern="\d{2}/\d{2}/\d{4}"
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.startDate}
+                    {errors.moveInDate}
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 <FloatingLabel
-                  controlId="floatingEndDate"
-                  label="End Date"
+                  controlId="floatingmoveOutDate"
+                  label="Move Out Date"
                   className="mb-3"
                 >
                   <Form.Control
                     type="date"
-                    name="endDate"
-                    placeholder="End Date"
-                    value={values.endDate}
+                    name="moveOutDate"
+                    placeholder="Move Out Date"
+                    value={values.moveOutDate}
                     onChange={handleChange}
-                    isInvalid={!!errors.endDate}
+                    isInvalid={!!errors.moveOutDate}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.endDate}
+                    {errors.moveOutDate}
                   </Form.Control.Feedback>
                 </FloatingLabel>
                 <Button variant="primary" type="submit" disabled={!isValid}>

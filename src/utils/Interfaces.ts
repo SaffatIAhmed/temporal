@@ -14,7 +14,7 @@ export interface ListingCardData {
 	bathrooms: number;
 	rent: number;
 	utilities: number;
-	privateRoom: boolean;
+	isPrivateRoom: boolean;
 	prefGender: "male" | "female" | "other" | "any";
 	moveInDate: string;
 	moveOutDate: string;
