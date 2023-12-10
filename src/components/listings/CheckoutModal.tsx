@@ -1,8 +1,7 @@
-import { Row, Col, Modal, Placeholder, FloatingLabel, Form } from "react-bootstrap";
-import { CartFill, Star } from "react-bootstrap-icons";
+import { Row, Col, Modal } from "react-bootstrap";
+import { CartFill } from "react-bootstrap-icons";
 import { ListingCardData } from "../../utils/Interfaces";
 import ThemeButton from "../base/ThemedButton";
-import { useState } from "react";
 
 interface CheckoutModalProps {
 	data: ListingCardData;
@@ -13,15 +12,15 @@ interface CheckoutModalProps {
 function CheckoutModal(props: CheckoutModalProps) {
 
 	return (
-		<Modal show={props.showModal} onHide={props.handleClose} size="lg">
+		<Modal show={props.showModal} onHide={props.handleClose} size="xl">
 			<Modal.Header closeButton>
 				<Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
 					{props.data.street +
 						", " +
 						props.data.city +
 						" " +
-						props.data.state 
-						}
+						props.data.state
+					}
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body style={{ padding: 32 }}>
@@ -35,12 +34,12 @@ function CheckoutModal(props: CheckoutModalProps) {
 				>
 					<Row style={{ width: "100%" }}>
 						<Col>
-						<div>
-							Confirm following listing details
-						</div>
+							<div>
+								Confirm following listing details
+							</div>
 						</Col>
 						<Col>
-						<b>Total Summary: </b>
+							<b>Total Summary: </b>
 							<hr style={{ marginBlock: 8 }} />
 							<div
 								style={{
@@ -56,18 +55,15 @@ function CheckoutModal(props: CheckoutModalProps) {
 						</Col>
 					</Row>
 					<ThemeButton
-								icon={<CartFill size={24} />}
-								onClick={() => {
-									fetch('http://localhost:3000/listings/' + props.data._id, { method: 'DELETE' });
-									window.location.reload();
-								}}							
-                    >
-                    Confirm Payment
-                    </ThemeButton>
+						icon={<CartFill size={24} />}
+						onClick={props.handleClose}
+					>
+						Confirm Payment
+					</ThemeButton>
 				</div>
 			</Modal.Body>
 		</Modal>
-		
+
 	);
 }
 

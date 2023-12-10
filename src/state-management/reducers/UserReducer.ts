@@ -1,14 +1,9 @@
-import { setCookie, removeCookie } from "typescript-cookie";
-export const USER_COOKIE_NAME = "userData";
+export const USER_DATA_KEY = "userData";
 
-export interface UserPayload {
+export interface UserState {
 	username: string;
 	role: "user" | "moderator" | null;
-	userID: string | null;
-}
-
-export interface UserState extends UserPayload {
-	isLoggedIn: boolean;
+	id: string | null;
 }
 
 export enum UserActionKind {
@@ -18,14 +13,13 @@ export enum UserActionKind {
 
 export interface UserAction {
 	type: UserActionKind;
-	payload?: UserPayload;
+	payload?: UserState;
 }
 
 export const userInitialState: UserState = {
 	username: "",
 	role: null,
-	userID: null,
-	isLoggedIn: false,
+	id: null,
 };
 
 export const userReducer = (
@@ -36,13 +30,13 @@ export const userReducer = (
 	switch (type) {
 		case UserActionKind.LOGIN: {
 			if (payload) {
-				state = { ...payload, isLoggedIn: true };
-				setCookie(USER_COOKIE_NAME, JSON.stringify(state), { expires: 1 });
+				state = payload;
+				localStorage.setItem(USER_DATA_KEY, JSON.stringify(state));
 			}
 			break;
 		}
 		case UserActionKind.LOGOUT: {
-			removeCookie(USER_COOKIE_NAME);
+			localStorage.removeItem(USER_DATA_KEY);
 			state = userInitialState;
 			break;
 		}

@@ -6,12 +6,13 @@ import ThemedButton from "../base/ThemedButton";
 import { FormStatusData } from "../../utils/FormInterfaces";
 import { useContext } from "react";
 import { UserDispatchContext } from "../../state-management/contexts/UserContext";
-import { UserPayload, UserActionKind } from "../../state-management/reducers/UserReducer";
+import { type UserState, UserActionKind } from "../../state-management/reducers/UserReducer";
 import { RouteNames } from "../../utils/RoutesInfo";
+import axios from "axios";
 
 interface SignupFormData {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   username: string;
   password: string;
@@ -21,8 +22,8 @@ function RegisterForm() {
   const dispatch = useContext(UserDispatchContext);
 
   const initialValues: SignupFormData = {
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     username: "",
     password: "",
@@ -30,8 +31,8 @@ function RegisterForm() {
 
   const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
   const signupSchema = Yup.object().shape({
-    firstName: Yup.string().required("First name is required"),
-    lastName: Yup.string().required("Last name is requried"),
+    firstname: Yup.string().required("First name is required"),
+    lastname: Yup.string().required("Last name is requried"),
     email: Yup.string().email("Invalid Email").required("Email is required"),
     username: Yup.string().required("Username is required"),
     password: Yup.string()
@@ -45,24 +46,14 @@ function RegisterForm() {
 
   const submitForm = async (values: SignupFormData, { setStatus, setSubmitting }: FormikHelpers<SignupFormData>) => {
     try {
-      const result = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          username: values.username,
-          password: values.password,
-        })
-      });
-      if (!result.ok) {
-        throw new Error(`${result.status} ${result.statusText}`);
-      }
-      const data = await result.json();
-      const payload = data as UserPayload;
+      const { data } = await axios.post("http://localhost:3000/users", {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        email: values.email,
+        username: values.username,
+        password: values.password,
+      }, { withCredentials: true });
+      const payload = data as UserState;
       if (payload) {
         dispatch({
           type: UserActionKind.LOGIN,
@@ -90,39 +81,39 @@ function RegisterForm() {
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col>
-                <Form.Label htmlFor="firstName">First Name</Form.Label>
+                <Form.Label htmlFor="firstname">First Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="firstName"
-                  id="firstName"
-                  value={values.firstName}
+                  name="firstname"
+                  id="firstname"
+                  value={values.firstname}
                   onChange={(evt) => {
                     handleChange(evt);
-                    setFieldValue("firstName", evt.target.value.trim().replace(" ", ""));
+                    setFieldValue("firstname", evt.target.value.trim().replace(" ", ""));
                   }}
                   onBlur={handleBlur}
-                  isInvalid={!!errors.firstName}
+                  isInvalid={!!errors.firstname}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.firstName}
+                  {errors.firstname}
                 </Form.Control.Feedback>
               </Col>
               <Col>
-                <Form.Label htmlFor="lastName">Last Name</Form.Label>
+                <Form.Label htmlFor="lastname">Last Name</Form.Label>
                 <Form.Control
                   type="text"
-                  name="lastName"
-                  id="lastName"
-                  value={values.lastName}
+                  name="lastname"
+                  id="lastname"
+                  value={values.lastname}
                   onChange={(evt) => {
                     handleChange(evt);
-                    setFieldValue("lastName", evt.target.value.trim().replace(" ", ""));
+                    setFieldValue("lastname", evt.target.value.trim().replace(" ", ""));
                   }}
                   onBlur={handleBlur}
-                  isInvalid={!!errors.lastName}
+                  isInvalid={!!errors.lastname}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {errors.lastName}
+                  {errors.lastname}
                 </Form.Control.Feedback>
               </Col>
             </Row>

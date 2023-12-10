@@ -1,4 +1,3 @@
-import { Nav } from "react-bootstrap";
 import { HeaderData } from "./Header";
 import { RouteNames } from "../../utils/RoutesInfo";
 import { useContext } from "react";
@@ -14,8 +13,14 @@ function HeaderUser({ loggedIn, moderator }: HeaderData) {
 
     const dispatch = useContext(UserDispatchContext);
 
-    const handleLogout = () => {
-        dispatch({ type: UserActionKind.LOGOUT });
+    const handleLogout = async () => {
+        const result = await fetch("http://localhost:3000/users/logout",
+            {
+                method: "post"
+            });
+        if (result.ok) {
+            dispatch({ type: UserActionKind.LOGOUT });
+        }
     }
 
     return (

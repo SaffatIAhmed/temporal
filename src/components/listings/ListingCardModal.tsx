@@ -4,6 +4,7 @@ import { ListingCardData } from "../../utils/Interfaces";
 import CheckoutModal from "./CheckoutModal";
 import ThemeButton from "../base/ThemedButton";
 import { useState } from "react";
+import axios from "axios";
 
 interface ListingCardModalProps {
 	data: ListingCardData;
@@ -17,6 +18,14 @@ function ListingCardModal(props: ListingCardModalProps) {
 	//const picID = Number(props.data._id.substring(0,2));
 	const picID = props.data.rent % 1000;
 
+	const checkoutApartment = async (index: number) => {
+		try {
+			await axios.delete(`http://localhost:3000/listings/${index}`, { withCredentials: true });
+			setIsCheckoutModalOpen(false);
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	return (
 		<>
@@ -117,9 +126,9 @@ function ListingCardModal(props: ListingCardModalProps) {
 									<div>Preferred Gender: </div>
 									<div>{props.data.prefGender}</div>
 									<div>Start Date:</div>
-									<div>{props.data.startDate}</div>
+									<div>{props.data.moveInDate}</div>
 									<div>End Date:</div>
-									<div>{props.data.endDate}</div>
+									<div>{props.data.moveOutDate}</div>
 								</div>
 							</Col>
 							<Col>
@@ -131,7 +140,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 											marginTop: 12,
 										}}
 									>
-										<li>Heating & Cooling: {props.data.heatingCooling.toString()}</li>
+										{/* <li>Heating & Cooling: {props.data.heatingCooling.toString()}</li>
 										<li>Laundry & Dryer: {props.data.laundryDryer.toString()}</li>
 										<li>Internet: {props.data.internet.toString()}</li>
 										<li>Car Parking: {props.data.carParking.toString()}</li>
@@ -139,7 +148,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 										<li>Gym: {props.data.gym.toString()}</li>
 										<li>Pool: {props.data.pool.toString()}</li>
 										<li>Patio: {props.data.patio.toString()}</li>
-										<li>Bathtub: {props.data.bath.toString()}</li>
+										<li>Bathtub: {props.data.bath.toString()}</li> */}
 									</ul>
 								</div>
 							</Col>
@@ -154,7 +163,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 										gap: "6px 0px",
 									}}
 								>
-									<div>Pets Allowed?:</div>
+									{/* <div>Pets Allowed?:</div>
 									<div>{props.data.allowedPets.toString()}</div>
 									<div>Smoking Allowed?</div>
 									<div>{props.data.allowedSmoking.toString()}</div>
@@ -163,7 +172,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 									<div>Quiet Hours Start:</div>
 									<div>{props.data.quietHoursStart}</div>
 									<div>Quiet Hours Until:</div>
-									<div>{props.data.quietHoursEnd}</div>
+									<div>{props.data.quietHoursEnd}</div> */}
 								</div>
 							</Col>
 						</Row>
@@ -173,7 +182,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 			<CheckoutModal
 				data={props.data}
 				showModal={isCheckoutModalOpen}
-				handleClose={() => setIsCheckoutModalOpen(false)}
+				handleClose={() => checkoutApartment(props.data.id)}
 			/>
 		</>
 	);

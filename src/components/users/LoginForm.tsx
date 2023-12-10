@@ -4,10 +4,11 @@ import { Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { NavLink } from "react-router-dom";
 import { UserDispatchContext } from "../../state-management/contexts/UserContext";
-import { UserActionKind, UserPayload } from "../../state-management/reducers/UserReducer";
+import { UserActionKind, type UserState } from "../../state-management/reducers/UserReducer";
 import { FormStatusData } from "../../utils/FormInterfaces";
 import { RouteNames } from "../../utils/RoutesInfo";
 import ThemedButton from "../base/ThemedButton";
+import axios from "axios";
 
 interface LoginFormData {
   username: string;
@@ -30,21 +31,12 @@ function LoginForm() {
 
   const submitForm = async (values: LoginFormData, { setSubmitting, setStatus }: FormikHelpers<LoginFormData>) => {
     try {
-      const result = await fetch("http://localhost:3000/users/login", {
-        method: "POST",
-        headers: {
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password
-        })
-      });
-      if (!result.ok) {
-        throw new Error(`${result.status} ${result.statusText}`);
-      }
-      const data = await result.json();
-      const payload = data as UserPayload;
+      const { data } = await axios.post("http://localhost:3000/users/login", {
+        username: values.username,
+        password: values.password
+      }, { withCredentials: true });
+      console.log(data);
+      const payload = data as UserState;
       if (payload) {
         dispatch({
           type: UserActionKind.LOGIN,

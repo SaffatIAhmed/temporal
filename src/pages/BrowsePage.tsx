@@ -1,11 +1,24 @@
+import { useNavigate } from "react-router";
 import ListingCardGrid from "../components/listings/ListingCardGrid";
 import { ListingCardData } from "../utils/Interfaces";
-import FetchData from "../components/common/FetchData";
-import React, { Component, useState, useEffect } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 function BrowsePage() {
-	const [fetchedData, setData] = useState<ListingCardData[]>([]);
-	
+	const navigate = useNavigate();
+	const [allListings, setAllListings] = useState<ListingCardData[]>([]);
+	useEffect(() => {
+		axios.get(`http://localhost:3000/listings`, { withCredentials: true })
+			.then(result => {
+				setAllListings(result.data as ListingCardData[]);
+			})
+			.catch((error) => {
+				console.log(error);
+				navigate("/");
+			})
+	}, []);
+
+
 	/*
 	const dummyData: ListingCardData[] = [
 		{
@@ -29,16 +42,7 @@ function BrowsePage() {
 	*/
 
 
-
-	useEffect(() => {
-		FetchData('http://localhost:3000/listings')
-		.then(([data]) => {
-			setData(data);
-			//console.log(fetchedData);
-		});
-	  }, []);
-
-	return <ListingCardGrid dataList={fetchedData} />;
+	return <ListingCardGrid dataList={allListings} />;
 }
 
 

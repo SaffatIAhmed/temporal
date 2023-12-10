@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import HeaderLoggedOut from './HeaderLoggedOut';
 import HeaderModerator from './HeaderModerator';
 import HeaderUser from './HeaderUser';
+import { NavLink } from 'react-router-dom';
 
 export interface HeaderData {
   loggedIn: boolean;
@@ -13,19 +14,23 @@ export interface HeaderData {
 }
 
 function Header() {
-  const { isLoggedIn, role } = useContext(UserContext);
+  const { id, role } = useContext(UserContext);
   const isModerator = () => role === "moderator";
 
   return (
     <Navbar collapseOnSelect expand="lg" bg={role === "moderator" ? "danger" : "light"} variant={role === "moderator" ? "dark" : "light"} sticky="top" >
       <Container>
-        <Navbar.Brand href="/browse">Temporal</Navbar.Brand>
+        <Navbar.Brand>
+          <NavLink to={"/browse"} className={"navbar-brand"}>
+            Temporal
+          </NavLink>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
           <Nav style={{ gap: "20px" }}>
-            <HeaderLoggedOut loggedIn={isLoggedIn} moderator={isModerator()} />
-            <HeaderModerator loggedIn={isLoggedIn} moderator={isModerator()} />
-            <HeaderUser loggedIn={isLoggedIn} moderator={isModerator()} />
+            <HeaderLoggedOut loggedIn={id !== null} moderator={isModerator()} />
+            <HeaderModerator loggedIn={id !== null} moderator={isModerator()} />
+            <HeaderUser loggedIn={id !== null} moderator={isModerator()} />
           </Nav>
         </Navbar.Collapse>
       </Container>

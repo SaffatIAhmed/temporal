@@ -1,10 +1,7 @@
-import { ReactElement } from "react";
-import Button from "react-bootstrap/Button";
+import { PropsWithChildren } from "react";
+import Button, { ButtonProps } from "react-bootstrap/Button";
 
-interface IconButtonProps {
-	icon: ReactElement;
-	onClick: () => {};
-}
+type IconButtonProps = ButtonProps & PropsWithChildren;
 
 function IconButton(props: IconButtonProps) {
 	return (
@@ -18,7 +15,7 @@ function IconButton(props: IconButtonProps) {
 				color: "#212529",
 			}}
 		>
-			{props.icon}
+			{props.children}
 		</Button>
 	);
 }

@@ -16,10 +16,10 @@ function LoginRegisterPage({ mode, formTitle }: LoginSignupPageProps) {
     const userState = useContext(UserContext);
 
     useEffect(() => {
-        if (userState.isLoggedIn) {
+        if (userState.id !== null) {
             navigate(RouteNames.HOME);
         }
-    }, [userState.isLoggedIn]);
+    }, [userState]);
 
     return (
         <Container fluid

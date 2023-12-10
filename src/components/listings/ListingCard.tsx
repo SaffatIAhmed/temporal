@@ -14,10 +14,7 @@ function ListingCard({ data: props }: ListingCardProps) {
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-	//const picID = Number(props._id.substring(0,2));
 	const picID = props.rent % 1000;
-
-
 
 	return (
 		<>
@@ -60,20 +57,21 @@ function ListingCard({ data: props }: ListingCardProps) {
 						</Col>
 						<Col sm={2} style={{ cursor: "default" }}>
 							<IconButton
-								icon={<Star size={24} />}
 								onClick={function (): {} {
 									throw new Error(
 										"Function not implemented."
 									);
 								}}
-							/>
+							>
+								<Star size={24} />
+							</IconButton>
 							<IconButton
-								icon={<CartFill size={24} />}
 								onClick={() => {
 									setIsCheckoutModalOpen(true);
-									return {};
 								}}
-							/>
+							>
+								<CartFill size={24} />
+							</IconButton>
 						</Col>
 					</Row>
 				</Card.Body>
