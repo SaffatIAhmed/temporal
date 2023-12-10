@@ -4,7 +4,6 @@ import ListingCard from "./ListingCard";
 import FilterSelect from "./FilterSelect";
 import FilterField from "./FilterField";
 import { useState } from "react";
-import FilterBar from "./FilterBar";
 
 interface ListingCardGridProps {
 	dataList: ListingCardData[];

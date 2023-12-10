@@ -27,7 +27,7 @@ function ListingCard({ data: props }: ListingCardProps) {
 
   if (role == "moderator") {
     setPermissions(true);
-  } else if (userID == props.posted_by) {
+  } else if (userID == props.postedBy) {
     setPermissions(true);
   }
 
