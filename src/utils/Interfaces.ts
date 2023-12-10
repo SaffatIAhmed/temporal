@@ -1,3 +1,6 @@
+import { SetStateAction } from "react";
+import { UserState } from "../state-management/reducers/UserReducer";
+
 export interface ListingCardData {
 	id: number;
 	postedBy: number;
@@ -30,6 +33,7 @@ export interface ListingCardData {
 	allowedGuests?: boolean;
 	quietHoursStart?: string;
 	quietHoursEnd?: string;
+	isSaved?: boolean;
 }
 
 export interface UserCardData {
@@ -39,4 +43,20 @@ export interface UserCardData {
 	email: string;
 	username: string;
 	role: string;
+}
+
+export interface ArrayStateHandlers<T> {
+	Create?: (data: T) => void;
+	Delete?: (index: number, data: T) => void;
+	Update?: (index: number, newState: T) => void;
+	Set?: (state: T[]) => void;
+}
+
+export interface ListingContext {
+	state: ListingCardData[];
+	handlers: ArrayStateHandlers<ListingCardData>;
+	canEdit: (user: UserState, listingCardData: ListingCardData) => boolean;
+	canDelete: (user: UserState, listingCardData: ListingCardData) => boolean;
+	canCheckout: (user: UserState, listingCardData: ListingCardData) => boolean;
+	canSave: (user: UserState, listingCardData: ListingCardData) => boolean;
 }

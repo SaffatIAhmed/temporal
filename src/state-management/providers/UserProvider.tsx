@@ -3,12 +3,12 @@ import { UserContext, UserDispatchContext } from "../contexts/UserContext";
 import { USER_DATA_KEY, UserActionKind, UserState, userInitialState, userReducer } from "../reducers/UserReducer";
 import axios from "axios";
 
-function UserProvider({ children }: PropsWithChildren) {
-  const [userState, dispatch] = useReducer(userReducer, userInitialState);
+function StateProvider({ children }: PropsWithChildren) {
+  const [userState, userDispatch] = useReducer(userReducer, userInitialState);
   axios.interceptors.response.use(res => res,
     err => {
       console.log("axios interceptor detected unauthorized access");
-      dispatch({ type: UserActionKind.LOGOUT });
+      userDispatch({ type: UserActionKind.LOGOUT });
       return Promise.reject(err);
     });
 
@@ -17,14 +17,14 @@ function UserProvider({ children }: PropsWithChildren) {
     if (data) {
       const userState = JSON.parse(data) as UserState;
       if (userState) {
-        dispatch({ type: UserActionKind.LOGIN, payload: userState })
+        userDispatch({ type: UserActionKind.LOGIN, payload: userState })
       }
     }
   }, []);
 
   return (
     <UserContext.Provider value={userState}>
-      <UserDispatchContext.Provider value={dispatch}>
+      <UserDispatchContext.Provider value={userDispatch}>
         {children}
       </UserDispatchContext.Provider>
     </UserContext.Provider>
@@ -32,4 +32,4 @@ function UserProvider({ children }: PropsWithChildren) {
 }
 
 
-export default UserProvider;
+export default StateProvider;

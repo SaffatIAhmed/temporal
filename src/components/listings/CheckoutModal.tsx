@@ -1,9 +1,10 @@
 import { Row, Col, Modal } from "react-bootstrap";
 import { CartFill } from "react-bootstrap-icons";
-import { ListingCardData } from "../../utils/Interfaces";
+import { ListingCardData, ListingContext } from "../../utils/Interfaces";
 import ThemeButton from "../base/ThemedButton";
 
 interface CheckoutModalProps {
+	context: React.Context<ListingContext>;
 	data: ListingCardData;
 	showModal: boolean;
 	handleClose: () => any;

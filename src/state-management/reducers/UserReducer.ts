@@ -3,7 +3,7 @@ export const USER_DATA_KEY = "userData";
 export interface UserState {
 	username: string;
 	role: "user" | "moderator" | null;
-	id: string | null;
+	id: number | null;
 }
 
 export enum UserActionKind {

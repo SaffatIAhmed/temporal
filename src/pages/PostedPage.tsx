@@ -1,14 +1,30 @@
-import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
 import ListingCardGrid from "../components/listings/ListingCardGrid";
 import { UserContext } from "../state-management/contexts/UserContext";
-import { ListingCardData } from "../utils/Interfaces";
+import { type ListingCardData, ListingContext } from "../utils/Interfaces";
 import { useNavigate } from "react-router";
-import axios from "axios";
+import { UserState } from "../state-management/reducers/UserReducer";
+
+const PostedListingContext = createContext<ListingContext>({
+	state: [],
+	handlers: {},
+	canEdit: () => false,
+	canDelete: () => false,
+	canSave: () => false,
+	canCheckout: () => false,
+});
 
 function PostedPage() {
 	const navigate = useNavigate();
+	const userState = useContext(UserContext);
 	const [postedListings, setPostedListings] = useState<ListingCardData[]>([]);
-	const userState = useContext(UserContext)
+
+	const deleteListing = (index: number, data?: ListingCardData) => {
+		// Handle Async code in the button clicks
+		console.log({ deleteIndex: index, data });
+	}
+
 	useEffect(() => {
 		if (userState.id == null) {
 			return navigate("/");
@@ -24,8 +40,23 @@ function PostedPage() {
 				navigate("/");
 			})
 	},
-		[userState])
-	return (<ListingCardGrid dataList={postedListings} />)
+		[userState]);
+
+	const canEditDelete = (user: UserState, listing: ListingCardData) => user.id === listing.postedBy
+	const canSaveCheckout = () => false;
+
+	return (
+		<PostedListingContext.Provider value={{
+			state: postedListings,
+			handlers: {},
+			canEdit: canEditDelete,
+			canDelete: canEditDelete,
+			canSave: canSaveCheckout,
+			canCheckout: canSaveCheckout,
+		}}>
+			<ListingCardGrid context={PostedListingContext} />
+		</PostedListingContext.Provider>
+	)
 }
 
 export default PostedPage;

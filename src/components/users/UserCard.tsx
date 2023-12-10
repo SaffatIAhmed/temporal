@@ -2,6 +2,8 @@ import { Card, Col, Row, Stack } from "react-bootstrap";
 import { Trash2Fill } from "react-bootstrap-icons";
 import IconButton from "../base/IconButton";
 import { UserCardData } from "../../utils/Interfaces";
+import ConfirmationModal from "../listings/ConfirmationModal";
+import { useState } from "react";
 
 interface UserCardProps {
     index: number,
@@ -10,6 +12,15 @@ interface UserCardProps {
 }
 
 function UserCard({ data, onDelete, index }: UserCardProps) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const onModalClosed = async (confirm: boolean) => {
+        setIsModalOpen(false);
+        if (confirm) {
+            await onDelete(index);
+        }
+    }
+
     return (
         <>
             <Card className="mt-1">
@@ -17,7 +28,7 @@ function UserCard({ data, onDelete, index }: UserCardProps) {
                     <Stack direction="horizontal">
                         <Col xs={1}>
                             <IconButton
-                                onClick={async () => await onDelete(index)}
+                                onClick={() => setIsModalOpen(true)}
                             >
                                 <Trash2Fill size={24} />
                             </IconButton>
@@ -32,6 +43,21 @@ function UserCard({ data, onDelete, index }: UserCardProps) {
                     </Stack>
                 </Card.Body>
             </Card>
+            <ConfirmationModal<{}>
+                confirmTextNo="No"
+                confirmTextYes="Yes"
+                title={"Are you sure you want to delete user @" + data.username}
+                handleClose={onModalClosed}
+                show={isModalOpen}
+                data={{}}
+            >
+                <div>
+                    You really want to delete the user?
+                </div>
+                <div>
+                    NOTE: THIS ACTION IS IRREVERSIBLE
+                </div>
+            </ConfirmationModal>
         </>
     );
 }

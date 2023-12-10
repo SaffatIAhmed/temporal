@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { RouteNames } from "./utils/RoutesInfo";
 
 // State
-import UserProvider from "./state-management/providers/UserProvider";
+import StateProvider from "./state-management/providers/UserProvider";
 
 // Pages
 import BrowsePage from "./pages/BrowsePage";
@@ -19,7 +19,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 export const App = () => {
 	return (
-		<UserProvider>
+		<StateProvider>
 			<BrowserRouter>
 				<Header />
 				<div style={{ marginInline: 48 }}>
@@ -34,7 +34,7 @@ export const App = () => {
 					</Routes>
 				</div>
 			</BrowserRouter>
-		</UserProvider>
+		</StateProvider>
 	);
 };
 

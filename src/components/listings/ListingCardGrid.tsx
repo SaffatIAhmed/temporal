@@ -1,15 +1,20 @@
 import Container from "react-bootstrap/esm/Container";
-import { ListingCardData } from "../../utils/Interfaces";
 import ListingCard from "./ListingCard";
 import FilterSelect from "./FilterSelect";
 import FilterField from "./FilterField";
 import { Form } from "react-bootstrap";
+import { useContext } from "react";
+import { ListingContext } from "../../utils/Interfaces";
+import { UserContext } from "../../state-management/contexts/UserContext";
 
 interface ListingCardGridProps {
-	dataList: ListingCardData[];
+	context: React.Context<ListingContext>,
 }
 
 function ListingCardGrid(props: ListingCardGridProps) {
+	const { state, canEdit, canSave, canCheckout, canDelete } = useContext<ListingContext>(props.context);
+	const userState = useContext(UserContext);
+
 	return (
 		<Container
 			fluid
@@ -28,7 +33,7 @@ function ListingCardGrid(props: ListingCardGridProps) {
 				}}
 			>
 				<span style={{ fontSize: 24, whiteSpace: "nowrap" }}>
-					Found {props.dataList.length} listings in Richardson, TX
+					Found {state.length} listings in Richardson, TX
 				</span>
 				<Form.Control placeholder="Search other locations..." />
 			</div>
@@ -76,8 +81,17 @@ function ListingCardGrid(props: ListingCardGridProps) {
 					gap: 32,
 				}}
 			>
-				{props.dataList.map((listing, index) => {
-					return <ListingCard key={index} data={listing} />;
+				{state.map((listing, index) => {
+					return (<ListingCard
+						key={index}
+						index={index}
+						data={listing}
+						context={props.context}
+						canEdit={canEdit(userState, listing)}
+						canDelete={canDelete(userState, listing)}
+						canSave={canSave(userState, listing)}
+						canCheckout={canCheckout(userState, listing)}
+					/>);
 				})}
 			</div>
 		</Container>

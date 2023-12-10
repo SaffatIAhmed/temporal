@@ -1,20 +1,27 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
-import { CartFill, Star } from "react-bootstrap-icons";
-import { ListingCardData } from "../../utils/Interfaces";
+import { CartFill, Pencil, Star, StarFill, Trash2Fill } from "react-bootstrap-icons";
+import { ListingCardData, ListingContext } from "../../utils/Interfaces";
 import { useState } from "react";
 import ListingCardModal from "./ListingCardModal";
 import CheckoutModal from "./CheckoutModal";
 import IconButton from "../base/IconButton";
 
 interface ListingCardProps {
+	context: React.Context<ListingContext>,
 	data: ListingCardData;
+	index: number;
+	canEdit: boolean;
+	canDelete: boolean;
+	canSave: boolean;
+	canCheckout: boolean;
 }
 
-function ListingCard({ data: props }: ListingCardProps) {
+function ListingCard(props: ListingCardProps) {
+	const { canEdit, canDelete, canSave, canCheckout } = props;
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-	const picID = props.rent % 1000;
+	const picID = props.data.rent % 1000;
 
 	return (
 		<>
@@ -42,48 +49,51 @@ function ListingCard({ data: props }: ListingCardProps) {
 									fontWeight: "bold",
 								}}
 							>
-								{props.street}
+								{props.data.street}
 							</div>
 							<div>
-								{props.street +
+								{props.data.street +
 									" • " +
-									props.city +
+									props.data.city +
 									", " +
-									props.state}
+									props.data.state}
 							</div>
 							<div>
-								<b>${props.rent}</b> • Available Now
+								<b>${props.data.rent}</b> • Available Now
 							</div>
 						</Col>
 						<Col sm={2} style={{ cursor: "default" }}>
-							<IconButton
-								onClick={function (): {} {
-									throw new Error(
-										"Function not implemented."
-									);
-								}}
-							>
-								<Star size={24} />
-							</IconButton>
-							<IconButton
-								onClick={() => {
-									setIsCheckoutModalOpen(true);
-								}}
-							>
+							{canSave && <IconButton>
+								{
+									props.data.isSaved
+										? <StarFill size={24} />
+										: <Star size={24} />
+								}
+							</IconButton>}
+							{canCheckout && <IconButton>
 								<CartFill size={24} />
-							</IconButton>
+							</IconButton>}
+							{canEdit && <IconButton>
+								<Pencil size={24} />
+							</IconButton>}
+							{canDelete && <IconButton>
+								<Trash2Fill size={24} />
+							</IconButton>}
 						</Col>
 					</Row>
 				</Card.Body>
 			</Card>
 
 			<ListingCardModal
-				data={props}
+				index={props.index}
+				context={props.context}
+				data={props.data}
 				showModal={isModalOpen}
 				handleClose={() => setIsModalOpen(false)}
 			/>
 			<CheckoutModal
-				data={props}
+				context={props.context}
+				data={props.data}
 				showModal={isCheckoutModalOpen}
 				handleClose={() => setIsCheckoutModalOpen(false)}
 			/>

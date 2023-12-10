@@ -1,48 +1,72 @@
-import { useNavigate } from "react-router";
 import ListingCardGrid from "../components/listings/ListingCardGrid";
-import { ListingCardData } from "../utils/Interfaces";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import { ListingCardData, ListingContext } from "../utils/Interfaces";
+import { UserState } from "../state-management/reducers/UserReducer";
+import { UserContext } from "../state-management/contexts/UserContext";
+
+
+const AllListingContext = createContext<ListingContext>({
+	state: [],
+	handlers: {},
+	canEdit: () => false,
+	canDelete: () => false,
+	canSave: () => false,
+	canCheckout: () => false,
+});
 
 function BrowsePage() {
-	const navigate = useNavigate();
+	const { id } = useContext(UserContext);
 	const [allListings, setAllListings] = useState<ListingCardData[]>([]);
 	useEffect(() => {
 		axios.get(`http://localhost:3000/listings`, { withCredentials: true })
 			.then(result => {
-				setAllListings(result.data as ListingCardData[]);
+				const fetchedListings: ListingCardData[] = result.data;
+				setAllListings(fetchedListings);
+				if (id) {
+					axios.get(`http://localhost:3000/users/${id}/saved`, { withCredentials: true })
+						.then(res => {
+							if (res.data.length > 0) {
+								const savedListings = res.data as ListingCardData[];
+								(savedListings).forEach((listing) => {
+									const savedIndex = fetchedListings.findIndex(elem => elem.id === listing.id);
+									fetchedListings[savedIndex].isSaved = true;
+								});
+								setAllListings(fetchedListings);
+							}
+						})
+						.catch(err => {
+							console.log(err);
+						})
+				}
+				else {
+					setAllListings(allListings.map(listing => {
+						listing.isSaved = false;
+						return listing;
+					}));
+				}
 			})
 			.catch((error) => {
 				console.log(error);
-				navigate("/");
 			})
-	}, []);
+
+	}, [id]);
+
+	const canEditDelete = (user: UserState, listing: ListingCardData) => user.role === "moderator" || user.id === listing.postedBy
+	const canSaveCheckout = (user: UserState, listing: ListingCardData) => user.role === "user" && user.id !== listing.postedBy
 
 
-	/*
-	const dummyData: ListingCardData[] = [
-		{
-			_id: 123,
-			postedBy: "6549cf50a4c97802fed8ccd1",
-			title: "New Accommodation available",
-			apartmentNumber: "1122",
-			address:"Post Office Street",
-			city: "Frisco",
-			state: "TX",
-			zipcode:"75080",
-			bedrooms: "1",
-			bathrooms:"1", 
-			monthlyRent: "950",
-			utilitiesAmt: "50",
-			listingType: "Permanent",
-			startDate: "12-01-2023",
-			endDate: "08-01-2024"
-		},
-	];
-	*/
+	return (<AllListingContext.Provider value={{
+		state: allListings,
+		handlers: {},
+		canEdit: canEditDelete,
+		canDelete: canEditDelete,
+		canSave: canSaveCheckout,
+		canCheckout: canSaveCheckout,
+	}}>
+		<ListingCardGrid context={AllListingContext} />
+	</AllListingContext.Provider>);
 
-
-	return <ListingCardGrid dataList={allListings} />;
 }
 
 
