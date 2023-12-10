@@ -1,4 +1,5 @@
 import { FloatingLabel, Form } from "react-bootstrap";
+import { ListingCardData } from "../../utils/Interfaces";
 
 interface FilterFieldProps {
 	label: string;

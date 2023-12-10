@@ -1,46 +1,41 @@
 import ListingCardGrid from "../components/listings/ListingCardGrid";
 import { ListingCardData } from "../utils/Interfaces";
 import FetchData from "../components/common/FetchData";
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useContext } from "react";
+import { UserContext } from "../state-management/contexts/UserContext";
+import CreateListingModal from "../components/listings/CreateListingModal";
 
 function BrowsePage() {
-	const [fetchedData, setData] = useState<ListingCardData[]>([]);
-	
-	/*
-	const dummyData: ListingCardData[] = [
-		{
-			_id: 123,
-			postedBy: "6549cf50a4c97802fed8ccd1",
-			title: "New Accommodation available",
-			apartmentNumber: "1122",
-			address:"Post Office Street",
-			city: "Frisco",
-			state: "TX",
-			zipcode:"75080",
-			bedrooms: "1",
-			bathrooms:"1", 
-			monthlyRent: "950",
-			utilitiesAmt: "50",
-			listingType: "Permanent",
-			startDate: "12-01-2023",
-			endDate: "08-01-2024"
-		},
-	];
-	*/
+  const [fetchedData, setData] = useState<ListingCardData[]>([]);
 
+  const dummyData: ListingCardData[] = [
+    {
+      id: "1",
+      posted_by: "1",
+      suit_number: "68739",
+      street: "526 Caliangt Way",
+      neighborhood: "Bent Avens",
+      city: "Van Nuys",
+      state: "CA",
+      zipcode: "91411",
+      bedrooms: 3,
+      bathrooms: 1,
+      rent: 78,
+      utilities: 26,
+      pref_gender: "Female",
+      is_private_room: "yes",
+      move_in_date: "1/27/2024",
+      move_out_date: "9/26/2024",
+    },
+  ];
 
+  useEffect(() => {
+    FetchData("http://localhost:3000/listings").then(([data]) => {
+      setData(data);
+    });
+  }, []);
 
-	useEffect(() => {
-		FetchData('http://localhost:3000/listings')
-		.then(([data]) => {
-			setData(data);
-			//console.log(fetchedData);
-		});
-	  }, []);
-
-	return <ListingCardGrid dataList={fetchedData} />;
+  return <ListingCardGrid dataList={dummyData} />;
 }
-
-
 
 export default BrowsePage;

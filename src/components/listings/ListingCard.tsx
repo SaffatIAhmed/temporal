@@ -1,23 +1,35 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
-import { CartFill, Star } from "react-bootstrap-icons";
+import { CartFill, Star, PencilSquare, Trash3 } from "react-bootstrap-icons";
 import { ListingCardData } from "../../utils/Interfaces";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ListingCardModal from "./ListingCardModal";
 import CheckoutModal from "./CheckoutModal";
 import IconButton from "../base/IconButton";
+import ThemeButton from "../base/ThemedButton";
+import DeleteModel from "./DeleteModal";
+import CreateListingModal from "./CreateListingModal";
+import { UserContext } from "../../state-management/contexts/UserContext";
 
 interface ListingCardProps {
-	data: ListingCardData;
+  data: ListingCardData;
 }
 
 function ListingCard({ data: props }: ListingCardProps) {
-	const [imgLoading, setImgLoading] = useState(true);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-	//const picID = Number(props._id.substring(0,2));
-	const picID = props.rent % 1000;
+  const [imgLoading, setImgLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isCreateListingModelOpen, setCreateListingModalOpen] = useState(false);
+  const [permissions, setPermissions] = useState(false);
+  const picID = props.rent % 1000;
 
+  const { userID, role } = useContext(UserContext);
 
+  if (role == "moderator") {
+    setPermissions(true);
+  } else if (userID == props.posted_by) {
+    setPermissions(true);
+  }
 
 	return (
 		<>
@@ -76,21 +88,62 @@ function ListingCard({ data: props }: ListingCardProps) {
 							/>
 						</Col>
 					</Row>
+          <Row>
+            <div
+              style={{
+                marginTop: 20,
+                display: "flex",
+                gap: 32,
+                alignContent: "center",
+              }}
+            >
+              <ThemeButton
+                permissions={permissions}
+                icon={<PencilSquare size={24} />}
+                onClick={function (): {} {
+                  setCreateListingModalOpen(true);
+                  return {};
+                }}
+              >
+                Edit
+              </ThemeButton>
+              <ThemeButton
+                permissions={permissions}
+                icon={<Trash3 size={24} />}
+                onClick={() => {
+                  setIsDeleteModalOpen(true);
+                  return {};
+                }}
+              >
+                Delete
+              </ThemeButton>
+            </div>
+          </Row>
 				</Card.Body>
 			</Card>
 
-			<ListingCardModal
-				data={props}
-				showModal={isModalOpen}
-				handleClose={() => setIsModalOpen(false)}
-			/>
-			<CheckoutModal
-				data={props}
-				showModal={isCheckoutModalOpen}
-				handleClose={() => setIsCheckoutModalOpen(false)}
-			/>
-		</>
-	);
+      <ListingCardModal
+        data={props}
+        showModal={isModalOpen}
+        handleClose={() => setIsModalOpen(false)}
+      />
+      <CheckoutModal
+        data={props}
+        showModal={isCheckoutModalOpen}
+        handleClose={() => setIsCheckoutModalOpen(false)}
+      />
+      <DeleteModel
+        data={props}
+        showModal={isDeleteModalOpen}
+        handleClose={() => setIsDeleteModalOpen(false)}
+      />
+      <CreateListingModal
+        data={props}
+        showModal={isCreateListingModelOpen}
+        handleClose={() => setCreateListingModalOpen(false)}
+      />
+    </>
+  );
 }
 
 export default ListingCard;

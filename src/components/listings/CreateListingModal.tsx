@@ -1,12 +1,19 @@
-import { useRef, useState } from 'react';
-import { FloatingLabel, Form } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { Formik, FormikProps } from 'formik';
-import * as yup from 'yup';
-import moment from 'moment'
+import { useRef, useState } from "react";
+import { FloatingLabel, Form } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { Formik, FormikProps } from "formik";
+import * as yup from "yup";
+import moment from "moment";
 
 import "../../styles/App.scss";
+import { ListingCardData } from "../../utils/Interfaces";
+
+interface CreateListingProps {
+  data?: ListingCardData;
+  showModal: boolean;
+  handleClose: () => any;
+}
 
 interface CreateListingSchema {
 	suiteNumber: string,
@@ -84,34 +91,17 @@ function CreateListingModal() {
         endDate: yup.date().required("End Date is a required field").min(yup.ref('startDate'), ({ min }) => `Date needs to be after ${formatDate(min)}`)
     });
 
-    const formRef = useRef<FormikProps<CreateListingSchema> | null>();
-    const [show, setShow] = useState(false);
-    const handleFormSubmit = async (values: any) => {
-        console.log(values);
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1')
-        const data = await response.json();
-        console.log(data);
-        setShow(false);
-    }
+  const formRef = useRef<FormikProps<CreateListingSchema> | null>(); 
+  const [show, setShow] = useState(false);
+  const handleFormSubmit = async (values: any) => {
+    const response = await fetch(
+      "http://localhost:3000/:id/save" 
+      );
+    const data = await response.json();
+    setShow(false);
+  };
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    return (
-        <>
-            <Button variant="success" onClick={handleShow}>
-                Add New Listing
-            </Button>
-
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create New Listing</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Formik
-                        innerRef={(f) => (formRef.current = f)}
-                        validationSchema={schema}
-                        onSubmit={handleFormSubmit}
-                        initialValues={{
+  var listingInitalValues = {
                             suiteNumber: "",
                             street: "",
                             neighborhood: "",
@@ -140,7 +130,55 @@ function CreateListingModal() {
                             quietHoursEnd: "",
                             startDate: "",
                             endDate: ""
-                        }}
+                        };
+
+  if ("data" in props) {
+    listingInitalValues = {
+                            suiteNumber: "",
+                            street: "",
+                            neighborhood: "",
+                            city: "",
+                            state: "",
+                            zipcode: "",
+                            bedrooms: "",
+                            bathrooms: "",
+                            rent: "",
+                            utilities: "",
+                            prefGender: "",
+                            privateRoom: "",
+                            heatingCooling: "",
+                            laundryDryer: "",
+                            internet: "",
+                            carParking: "",
+                            tv: "",
+                            gym: "",
+                            pool: "",
+                            patio: "",
+                            bath: "",
+                            allowedPets: "",
+                            allowedSmoking: "",
+                            allowedGuests: "",
+                            quietHoursStart: "",
+                            quietHoursEnd: "",
+                            startDate: "",
+                            endDate: ""
+                        };
+  }
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  return (
+    <>
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create New Listing</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Formik
+                        innerRef={(f) => (formRef.current = f)}
+                        validationSchema={schema}
+                        onSubmit={handleFormSubmit}
+                        initialValues={listingInitalValues}
                     >
                         {({ handleSubmit, handleChange, values, errors, setFieldValue, isValid }) => (
                             <Form noValidate onSubmit={handleSubmit}>
@@ -540,7 +578,7 @@ function CreateListingModal() {
                 </Modal.Body>
             </Modal >
         </>
-    );
+  );
 }
 
 export default CreateListingModal;

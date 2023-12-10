@@ -58,7 +58,7 @@ function CheckoutModal(props: CheckoutModalProps) {
 					<ThemeButton
 								icon={<CartFill size={24} />}
 								onClick={() => {
-									fetch('http://localhost:3000/listings/' + props.data._id, { method: 'DELETE' });
+									fetch('http://localhost:3000/listings/' + props.data.id, { method: 'DELETE' });
 									window.location.reload();
 								}}							
                     >

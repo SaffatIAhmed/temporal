@@ -1,14 +1,14 @@
 import { Row, Col, Modal, Carousel, Image, Placeholder } from "react-bootstrap";
-import { CartFill, Star } from "react-bootstrap-icons";
+import { CartFill, Star} from "react-bootstrap-icons";
 import { ListingCardData } from "../../utils/Interfaces";
 import CheckoutModal from "./CheckoutModal";
 import ThemeButton from "../base/ThemedButton";
 import { useState } from "react";
 
 interface ListingCardModalProps {
-	data: ListingCardData;
-	showModal: boolean;
-	handleClose: () => any;
+  data: ListingCardData;
+  showModal: boolean;
+  handleClose: () => any;
 }
 
 function ListingCardModal(props: ListingCardModalProps) {

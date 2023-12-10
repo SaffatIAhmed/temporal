@@ -8,7 +8,7 @@ export interface ListingCardData {
 	neighborhood: string,
 	city: string,
 	state: string,
-	zipcode: number,
+	zipcode: string,
 	bedrooms: number,
 	bathrooms: number,
 	rent: number,
