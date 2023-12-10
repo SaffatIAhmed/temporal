@@ -15,7 +15,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 	//const picID = Number(props.data._id.substring(0,2));
-	const picID = props.data.monthlyRent % 1000;
+	const picID = props.data.rent % 1000;
 
 
 	return (
@@ -23,7 +23,7 @@ function ListingCardModal(props: ListingCardModalProps) {
 			<Modal show={props.showModal} onHide={props.handleClose} size="lg">
 				<Modal.Header closeButton>
 					<Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
-						{props.data.address +
+						{props.data.street +
 							", " +
 							props.data.city +
 							" " +
@@ -107,27 +107,44 @@ function ListingCardModal(props: ListingCardModalProps) {
 									}}
 								>
 									<div>Rent:</div>
-									<div>${props.data.monthlyRent}</div>
+									<div>${props.data.rent}</div>
 									<div>Utilities: </div>
-									<div>${props.data.utilitiesAmt}</div>
+									<div>${props.data.utilities}</div>
+									<div>Bedrooms: </div>
+									<div>{props.data.bedrooms}</div>
+									<div>Bathrooms: </div>
+									<div>{props.data.bedrooms}</div>
+									<div>Preferred Gender: </div>
+									<div>{props.data.prefGender}</div>
+									<div>Start Date:</div>
+									<div>{props.data.startDate}</div>
+									<div>End Date:</div>
+									<div>{props.data.endDate}</div>
 								</div>
 							</Col>
 							<Col>
 								<div>
-									<b>Bed/Bath</b>
+									<b>Amenities</b>
 									<hr style={{ marginBlock: 8 }} />
 									<ul
 										style={{
 											marginTop: 12,
 										}}
 									>
-										<li>Bedrooms - {props.data.bedrooms}</li>
-										<li>Bathrooms - {props.data.bathrooms}</li>
+										<li>Heating & Cooling: {props.data.heatingCooling.toString()}</li>
+										<li>Laundry & Dryer: {props.data.laundryDryer.toString()}</li>
+										<li>Internet: {props.data.internet.toString()}</li>
+										<li>Car Parking: {props.data.carParking.toString()}</li>
+										<li>TV: {props.data.tv.toString()}</li>
+										<li>Gym: {props.data.gym.toString()}</li>
+										<li>Pool: {props.data.pool.toString()}</li>
+										<li>Patio: {props.data.patio.toString()}</li>
+										<li>Bathtub: {props.data.bath.toString()}</li>
 									</ul>
 								</div>
 							</Col>
 							<Col>
-								<b>Avaliablity</b>
+								<b>Policies</b>
 								<hr style={{ marginBlock: 8 }} />
 								<div
 									style={{
@@ -137,12 +154,16 @@ function ListingCardModal(props: ListingCardModalProps) {
 										gap: "6px 0px",
 									}}
 								>
-									<div>Type:</div>
-									<div>{props.data.listingType}</div>
-									<div>Start Date:</div>
-									<div>{props.data.startDate}</div>
-									<div>End Date:</div>
-									<div>{props.data.endDate}</div>
+									<div>Pets Allowed?:</div>
+									<div>{props.data.allowedPets.toString()}</div>
+									<div>Smoking Allowed?</div>
+									<div>{props.data.allowedSmoking.toString()}</div>
+									<div>Guests Allowed?</div>
+									<div>{props.data.allowedGuests.toString()}</div>
+									<div>Quiet Hours Start:</div>
+									<div>{props.data.quietHoursStart}</div>
+									<div>Quiet Hours Until:</div>
+									<div>{props.data.quietHoursEnd}</div>
 								</div>
 							</Col>
 						</Row>
