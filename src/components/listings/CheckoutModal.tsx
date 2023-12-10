@@ -51,7 +51,7 @@ function CheckoutModal(props: CheckoutModalProps) {
 								}}
 							>
 								<div>Rent:</div>
-								<div>${props.data.monthlyRent}</div>
+								<div>${props.data.rent}</div>
 							</div>
 						</Col>
 					</Row>

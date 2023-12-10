@@ -1,3 +1,6 @@
+//Some notes: On themed button now a permissiosn prop, just need to check permissions of the user here
+// and set corresponding permissions
+
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
 import { CartFill, Star, PencilSquare, Trash3 } from "react-bootstrap-icons";
 import { ListingCardData } from "../../utils/Interfaces";
@@ -19,8 +22,14 @@ function ListingCard({ data: props }: ListingCardProps) {
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isCreateListingModelOpen, setCreateListingModalOpen] = useState(false);
+  const [permissions, setPermissions] = useState(false);
   //const picID = Number(props._id.substring(0,2));
   const picID = props.rent % 1000;
+
+  // How do I check if a user is a mod or the creater of a listing?
+  const checkPermissions = () => {
+
+  }
 
   return (
     <>
@@ -45,10 +54,10 @@ function ListingCard({ data: props }: ListingCardProps) {
                   fontWeight: "bold",
                 }}
               >
-                {props.address}
+                {props.street}
               </div>
               <div>
-                {props.address + " • " + props.city + ", " + props.state}
+                {props.street + " • " + props.city + ", " + props.state}
               </div>
               <div>
                 <b>${props.rent}</b> • Available Now
@@ -80,6 +89,7 @@ function ListingCard({ data: props }: ListingCardProps) {
               }}
             >
               <ThemeButton
+                permissions={true}
                 icon={<PencilSquare size={24} />}
                 onClick={function (): {} {
                   setCreateListingModalOpen(true);
@@ -89,6 +99,7 @@ function ListingCard({ data: props }: ListingCardProps) {
                 Edit
               </ThemeButton>
               <ThemeButton
+                permissions={true}
                 icon={<Trash3 size={24} />}
                 onClick={() => {
                   setIsDeleteModalOpen(true);

@@ -18,7 +18,7 @@ function DeleteModal(props: DeleteModalProps) {
       <Modal.Header closeButton>
         <Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
           {"Deleting " +
-            props.data.address +
+            props.data.street +
             ", " +
             props.data.city +
             " " +
@@ -36,7 +36,7 @@ function DeleteModal(props: DeleteModalProps) {
         >
           <Row style={{ width: "100%" }}>
             {"Are you sure you would like to delete " +
-              props.data.address +
+              props.data.street +
               ", " +
               props.data.city +
               " " +
@@ -45,7 +45,7 @@ function DeleteModal(props: DeleteModalProps) {
           <ThemeButton
             icon={<Trash3 size={24} />}
             onClick={() => {
-              fetch("http://localhost:3000/listings/" + props.data._id, {
+              fetch("http://localhost:3000/listings/" + props.data.id, {
                 method: "DELETE",
               });
               window.location.reload();

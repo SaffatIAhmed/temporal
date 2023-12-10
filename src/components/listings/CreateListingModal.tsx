@@ -158,8 +158,8 @@ function CreateListingModal(props: CreateListingProps) {
     console.log("Aw no data");
   }
 
-  //const handleClose = () => setShow(false);
-  //const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <Modal show={props.showModal} onHide={props.handleClose}>
       <Modal.Header closeButton>

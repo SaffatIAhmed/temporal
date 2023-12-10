@@ -22,7 +22,7 @@ function ListingCardModal(props: ListingCardModalProps) {
       <Modal show={props.showModal} onHide={props.handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
-            {props.data.address +
+            {props.data.street +
               ", " +
               props.data.city +
               " " +

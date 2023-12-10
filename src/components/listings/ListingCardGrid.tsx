@@ -3,12 +3,16 @@ import { ListingCardData } from "../../utils/Interfaces";
 import ListingCard from "./ListingCard";
 import FilterSelect from "./FilterSelect";
 import FilterField from "./FilterField";
+import { useState } from "react";
+import FilterBar from "./FilterBar";
 
 interface ListingCardGridProps {
 	dataList: ListingCardData[];
 }
 
 function ListingCardGrid(props: ListingCardGridProps) {
+	
+	
 	return (
 		<Container
 			fluid
@@ -19,6 +23,7 @@ function ListingCardGrid(props: ListingCardGridProps) {
 				padding: 0,
 			}}
 		>
+			<FilterBar dataList={props.dataList}/>
 			<div
 				style={{
 					marginBottom: 32,
