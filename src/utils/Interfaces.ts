@@ -1,7 +1,9 @@
+import { StringSchema } from "yup";
+
 export interface ListingCardData {
-	id: string,
-	posted_by: string,
-	suit_number: string,
+	_id: string,
+	postedBy: string,
+	suiteNumber: string,
 	street: string,
 	neighborhood: string,
 	city: string,
@@ -11,10 +13,24 @@ export interface ListingCardData {
 	bathrooms: number,
 	rent: number,
 	utilities: number,
-	pref_gender: string,
-	is_private_room: string,
-	move_in_date: string,
-	move_out_date: string
+	prefGender: string,
+	privateRoom: boolean,
+	heatingCooling: boolean,
+	laundryDryer: boolean,
+	internet: boolean,
+	carParking: boolean,
+	tv: boolean,
+	gym: boolean,
+	pool: boolean,
+	patio: boolean,
+	bath: boolean,
+	allowedPets: boolean,
+	allowedSmoking: boolean,
+	allowedGuests: boolean,
+	quietHoursStart: string,
+	quietHoursEnd: string,
+	startDate: string,
+	endDate: string
 }
 
 export interface UserCardData {
