@@ -1,6 +1,3 @@
-//Some notes: On themed button now a permissiosn prop, just need to check permissions of the user here
-// and set corresponding permissions
-
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
 import { CartFill, Star, PencilSquare, Trash3 } from "react-bootstrap-icons";
 import { ListingCardData } from "../../utils/Interfaces";
@@ -24,12 +21,10 @@ function ListingCard({ data: props }: ListingCardProps) {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isCreateListingModelOpen, setCreateListingModalOpen] = useState(false);
   const [permissions, setPermissions] = useState(false);
-  //const picID = Number(props._id.substring(0,2));
   const picID = props.rent % 1000;
 
   const { userID, role } = useContext(UserContext);
 
-  // How do I check if a user is a mod or the creater of a listing?
   if (role == "moderator") {
     setPermissions(true);
   } else if (userID == props.posted_by) {
