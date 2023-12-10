@@ -1,5 +1,11 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
-import { CartFill, Pencil, Star, StarFill, Trash2Fill } from "react-bootstrap-icons";
+import {
+	CartFill,
+	Pencil,
+	Star,
+	StarFill,
+	Trash2Fill,
+} from "react-bootstrap-icons";
 import { ListingCardData, ListingContext } from "../../utils/Interfaces";
 import { useState } from "react";
 import ListingCardModal from "./ListingCardModal";
@@ -11,7 +17,7 @@ import CreateListingModal from "./CreateListingModal";
 import { UserContext } from "../../state-management/contexts/UserContext";
 
 interface ListingCardProps {
-	context: React.Context<ListingContext>,
+	context: React.Context<ListingContext>;
 	data: ListingCardData;
 	index: number;
 	canEdit: boolean;
@@ -25,7 +31,8 @@ function ListingCard(props: ListingCardProps) {
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-	const [isCreateListingModelOpen, setCreateListingModalOpen] = useState(false);
+	const [isCreateListingModelOpen, setCreateListingModalOpen] =
+		useState(false);
 	const [permissions, setPermissions] = useState(false);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 	const picID = props.data.rent % 1000;
@@ -70,22 +77,30 @@ function ListingCard(props: ListingCardProps) {
 							</div>
 						</Col>
 						<Col sm={2} style={{ cursor: "default" }}>
-							{canSave && <IconButton>
-								{
-									props.data.isSaved
-										? <StarFill size={24} />
-										: <Star size={24} />
-								}
-							</IconButton>}
-							{canCheckout && <IconButton>
-								<CartFill size={24} />
-							</IconButton>}
-							{canEdit && <IconButton>
-								<Pencil size={24} />
-							</IconButton>}
-							{canDelete && <IconButton>
-								<Trash2Fill size={24} />
-							</IconButton>}
+							{canSave && (
+								<IconButton>
+									{props.data.isSaved ? (
+										<StarFill size={24} />
+									) : (
+										<Star size={24} />
+									)}
+								</IconButton>
+							)}
+							{canCheckout && (
+								<IconButton>
+									<CartFill size={24} />
+								</IconButton>
+							)}
+							{canEdit && (
+								<IconButton>
+									<Pencil size={24} />
+								</IconButton>
+							)}
+							{canDelete && (
+								<IconButton>
+									<Trash2Fill size={24} />
+								</IconButton>
+							)}
 						</Col>
 					</Row>
 					<Row>
