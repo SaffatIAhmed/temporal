@@ -50,18 +50,12 @@ function ListingCardGrid(props: ListingCardGridProps) {
 				<FilterField label="Avaliable Until" type="date" />
 				<FilterField label="Min. Rent" />
 				<FilterField label="Max. Rent" />
+				<FilterField label="Bedroom No." />
+				<FilterField label="Bathroom No." />
 				<FilterSelect
 					label="Pet Friendly"
 					options={[
-						{ title: "Yes", value: true },
-						{ title: "No", value: false },
-					]}
-				/>
-				<FilterSelect
-					label="Smoke Friendly"
-					options={[
-						{ title: "Yes", value: true },
-						{ title: "No", value: false },
+						{ title: "Yes", value: true }
 					]}
 				/>
 				<FilterSelect

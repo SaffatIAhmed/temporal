@@ -5,6 +5,10 @@ import { useState } from "react";
 import ListingCardModal from "./ListingCardModal";
 import CheckoutModal from "./CheckoutModal";
 import IconButton from "../base/IconButton";
+import ThemeButton from "../base/ThemedButton";
+import DeleteModel from "./DeleteModal";
+import CreateListingModal from "./CreateListingModal";
+import { UserContext } from "../../state-management/contexts/UserContext";
 
 interface ListingCardProps {
 	context: React.Context<ListingContext>,
@@ -20,6 +24,9 @@ function ListingCard(props: ListingCardProps) {
 	const { canEdit, canDelete, canSave, canCheckout } = props;
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const [isCreateListingModelOpen, setCreateListingModalOpen] = useState(false);
+	const [permissions, setPermissions] = useState(false);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 	const picID = props.data.rent % 1000;
 
@@ -81,9 +88,39 @@ function ListingCard(props: ListingCardProps) {
 							</IconButton>}
 						</Col>
 					</Row>
+					<Row>
+						<div
+							style={{
+								marginTop: 20,
+								display: "flex",
+								gap: 32,
+								alignContent: "center",
+							}}
+						>
+							<ThemeButton
+								permissions={permissions}
+								icon={<Pencil size={24} />}
+								onClick={function (): {} {
+									setCreateListingModalOpen(true);
+									return {};
+								}}
+							>
+								Edit
+							</ThemeButton>
+							<ThemeButton
+								permissions={permissions}
+								icon={<Trash2Fill size={24} />}
+								onClick={() => {
+									setIsDeleteModalOpen(true);
+									return {};
+								}}
+							>
+								Delete
+							</ThemeButton>
+						</div>
+					</Row>
 				</Card.Body>
 			</Card>
-
 			<ListingCardModal
 				index={props.index}
 				context={props.context}
@@ -96,6 +133,16 @@ function ListingCard(props: ListingCardProps) {
 				data={props.data}
 				showModal={isCheckoutModalOpen}
 				handleClose={() => setIsCheckoutModalOpen(false)}
+			/>
+			<DeleteModel
+				data={props.data}
+				showModal={isDeleteModalOpen}
+				handleClose={() => setIsDeleteModalOpen(false)}
+			/>
+			<CreateListingModal
+				data={props.data}
+				showModal={isCreateListingModelOpen}
+				handleClose={() => setCreateListingModalOpen(false)}
 			/>
 		</>
 	);

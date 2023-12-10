@@ -20,11 +20,6 @@ function PostedPage() {
 	const userState = useContext(UserContext);
 	const [postedListings, setPostedListings] = useState<ListingCardData[]>([]);
 
-	const deleteListing = (index: number, data?: ListingCardData) => {
-		// Handle Async code in the button clicks
-		console.log({ deleteIndex: index, data });
-	}
-
 	useEffect(() => {
 		if (userState.id == null) {
 			return navigate("/");

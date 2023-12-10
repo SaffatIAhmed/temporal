@@ -25,7 +25,7 @@ function HeaderUser({ loggedIn, moderator }: HeaderData) {
 
     return (
         <>
-            < CreateListingModal />
+            < CreateListingModal showModal={false} handleClose={() => { }} />
             <NavLink to={RouteNames.POSTED} className={"nav-link"}>Posted</NavLink>
             <NavLink to={RouteNames.SAVED} className={"nav-link"}>Saved</NavLink>
             <button className='nav-link' onClick={handleLogout}>Logout</button>
