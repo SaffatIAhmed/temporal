@@ -91,12 +91,10 @@ function CreateListingModal() {
         endDate: yup.date().required("End Date is a required field").min(yup.ref('startDate'), ({ min }) => `Date needs to be after ${formatDate(min)}`)
     });
 
-  const formRef = useRef<FormikProps<CreateListingSchema> | null>(); //| null
+  const formRef = useRef<FormikProps<CreateListingSchema> | null>(); 
   const [show, setShow] = useState(false);
   const handleFormSubmit = async (values: any) => {
-    console.log("Values: " + values);
     const response = await fetch(
-      //"https://jsonplaceholder.typicode.com/posts/1"
       "http://localhost:3000/:id/save" 
       );
     const data = await response.json();
@@ -136,7 +134,6 @@ function CreateListingModal() {
                         };
 
   if ("data" in props) {
-    console.log("yay data is here");
     listingInitalValues = {
                             suiteNumber: "",
                             street: "",
@@ -167,8 +164,6 @@ function CreateListingModal() {
                             startDate: "",
                             endDate: ""
                         };
-  } else {
-    console.log("Aw no data");
   }
 
   const handleClose = () => setShow(false);
