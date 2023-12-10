@@ -16,7 +16,7 @@ function CheckoutModal(props: CheckoutModalProps) {
 		<Modal show={props.showModal} onHide={props.handleClose} size="lg">
 			<Modal.Header closeButton>
 				<Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
-					{props.data.address +
+					{props.data.street +
 						", " +
 						props.data.city +
 						" " +
@@ -58,7 +58,7 @@ function CheckoutModal(props: CheckoutModalProps) {
 					<ThemeButton
 								icon={<CartFill size={24} />}
 								onClick={() => {
-									fetch('http://localhost:3000/listings/' + props.data._id, { method: 'DELETE' });
+									fetch('http://localhost:3000/listings/' + props.data.id, { method: 'DELETE' });
 									window.location.reload();
 								}}							
                     >

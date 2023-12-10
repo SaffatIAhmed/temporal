@@ -4,13 +4,14 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
 import { CartFill, Star, PencilSquare, Trash3 } from "react-bootstrap-icons";
 import { ListingCardData } from "../../utils/Interfaces";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ListingCardModal from "./ListingCardModal";
 import CheckoutModal from "./CheckoutModal";
 import IconButton from "../base/IconButton";
 import ThemeButton from "../base/ThemedButton";
 import DeleteModel from "./DeleteModal";
 import CreateListingModal from "./CreateListingModal";
+import { UserContext } from "../../state-management/contexts/UserContext";
 
 interface ListingCardProps {
   data: ListingCardData;
@@ -26,9 +27,13 @@ function ListingCard({ data: props }: ListingCardProps) {
   //const picID = Number(props._id.substring(0,2));
   const picID = props.rent % 1000;
 
-  // How do I check if a user is a mod or the creater of a listing?
-  const checkPermissions = () => {
+  const { userID, role } = useContext(UserContext);
 
+  // How do I check if a user is a mod or the creater of a listing?
+  if (role == "moderator") {
+    setPermissions(true);
+  } else if (userID == props.posted_by) {
+    setPermissions(true);
   }
 
   return (
@@ -89,7 +94,7 @@ function ListingCard({ data: props }: ListingCardProps) {
               }}
             >
               <ThemeButton
-                permissions={true}
+                permissions={permissions}
                 icon={<PencilSquare size={24} />}
                 onClick={function (): {} {
                   setCreateListingModalOpen(true);
@@ -99,7 +104,7 @@ function ListingCard({ data: props }: ListingCardProps) {
                 Edit
               </ThemeButton>
               <ThemeButton
-                permissions={true}
+                permissions={permissions}
                 icon={<Trash3 size={24} />}
                 onClick={() => {
                   setIsDeleteModalOpen(true);
@@ -128,7 +133,7 @@ function ListingCard({ data: props }: ListingCardProps) {
         showModal={isDeleteModalOpen}
         handleClose={() => setIsDeleteModalOpen(false)}
       />
-      <CreateListingModal 
+      <CreateListingModal
         data={props}
         showModal={isCreateListingModelOpen}
         handleClose={() => setCreateListingModalOpen(false)}

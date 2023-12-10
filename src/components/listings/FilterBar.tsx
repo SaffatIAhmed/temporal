@@ -7,6 +7,7 @@ interface FilterBarProps {
 }
 
 function FilterBar(props: FilterBarProps) {
+  const [filteredListings, setFilteredListings] = useState(props.dataList);
   const [minRent, setMinRent] = useState("");
   const [maxRent, setMaxRent] = useState("");
   const [bedNum, setBedNum] = useState("");
