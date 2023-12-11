@@ -2,22 +2,15 @@ import { FloatingLabel, Form } from "react-bootstrap";
 
 interface FilterSelectProps {
 	label: string;
-	options: Option[];
-}
-
-interface Option {
-	title: string;
-	value: any;
 }
 
 function FilterSelect(props: FilterSelectProps) {
 	return (
 		<FloatingLabel label={props.label}>
 			<Form.Select style={{ minWidth: 150 }}>
-				<option>Any</option>
-				{props.options.map((option, index) => {
-					return <option key={index} value={option.value}>{option.title}</option>;
-				})}
+				<option value={undefined}>Any</option>
+				<option value={"true"}>Yes</option>
+				<option value={"false"}>No</option>
 			</Form.Select>
 		</FloatingLabel>
 	);

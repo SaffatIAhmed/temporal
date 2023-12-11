@@ -8,11 +8,12 @@ import { ListingContext } from "../../utils/Interfaces";
 import { UserContext } from "../../state-management/contexts/UserContext";
 
 interface ListingCardGridProps {
-	context: React.Context<ListingContext>,
+	context: React.Context<ListingContext>;
 }
 
 function ListingCardGrid(props: ListingCardGridProps) {
-	const { state, canEdit, canSave, canCheckout, canDelete } = useContext<ListingContext>(props.context);
+	const { state, canEdit, canSave, canCheckout, canDelete } =
+		useContext<ListingContext>(props.context);
 	const userState = useContext(UserContext);
 
 	return (
@@ -50,21 +51,9 @@ function ListingCardGrid(props: ListingCardGridProps) {
 				<FilterField label="Avaliable Until" type="date" />
 				<FilterField label="Min. Rent" />
 				<FilterField label="Max. Rent" />
-				<FilterField label="Bedroom No." />
-				<FilterField label="Bathroom No." />
-				<FilterSelect
-					label="Pet Friendly"
-					options={[
-						{ title: "Yes", value: true }
-					]}
-				/>
-				<FilterSelect
-					label="Guest Friendly"
-					options={[
-						{ title: "Yes", value: true },
-						{ title: "No", value: false },
-					]}
-				/>
+				<FilterSelect label="Pet Friendly" />
+				<FilterSelect label="Smoke Friendly" />
+				<FilterSelect label="Guest Friendly" />
 			</div>
 			<div
 				style={{
@@ -76,16 +65,18 @@ function ListingCardGrid(props: ListingCardGridProps) {
 				}}
 			>
 				{state.map((listing, index) => {
-					return (<ListingCard
-						key={index}
-						index={index}
-						data={listing}
-						context={props.context}
-						canEdit={canEdit(userState, listing)}
-						canDelete={canDelete(userState, listing)}
-						canSave={canSave(userState, listing)}
-						canCheckout={canCheckout(userState, listing)}
-					/>);
+					return (
+						<ListingCard
+							key={index}
+							index={index}
+							data={listing}
+							context={props.context}
+							canEdit={canEdit(userState, listing)}
+							canDelete={canDelete(userState, listing)}
+							canSave={canSave(userState, listing)}
+							canCheckout={canCheckout(userState, listing)}
+						/>
+					);
 				})}
 			</div>
 		</Container>

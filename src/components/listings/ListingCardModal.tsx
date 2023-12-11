@@ -37,18 +37,6 @@ function ListingCardModal(props: ListingCardModalProps) {
 		}
 	};
 
-	function convertDate(input: string) {
-		const curDate = new Date(input);
-
-		return (
-			curDate.getMonth() +
-			"/" +
-			curDate.getDate() +
-			"/" +
-			curDate.getFullYear()
-		);
-	}
-
 	return (
 		<>
 			<Modal show={props.showModal} onHide={props.handleClose} size="lg">
