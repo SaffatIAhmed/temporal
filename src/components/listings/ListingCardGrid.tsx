@@ -3,7 +3,7 @@ import ListingCard from "./ListingCard";
 import FilterSelect from "./FilterSelect";
 import FilterField from "./FilterField";
 import { Form } from "react-bootstrap";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ListingContext } from "../../utils/Interfaces";
 import { UserContext } from "../../state-management/contexts/UserContext";
 
@@ -12,9 +12,19 @@ interface ListingCardGridProps {
 }
 
 function ListingCardGrid(props: ListingCardGridProps) {
-	const { state, canEdit, canSave, canCheckout, canDelete } =
+	const { state, canEdit, canSave, canCheckout, canDelete, handlers } =
 		useContext<ListingContext>(props.context);
 	const userState = useContext(UserContext);
+
+	const [filterMinRent, setFilterMinRent] = useState("");
+	const [filterMaxRent, setFilterMaxRent] = useState("");
+
+	useEffect(() => {
+		if (handlers.Filter) {
+			handlers.Filter({ minRent: filterMinRent, maxRent: filterMaxRent });
+		}
+	}, [filterMinRent, filterMaxRent])
+
 
 	return (
 		<Container
@@ -47,10 +57,10 @@ function ListingCardGrid(props: ListingCardGridProps) {
 					gap: 16,
 				}}
 			>
-				<FilterField label="Avaliable Start" type="date" />
-				<FilterField label="Avaliable Until" type="date" />
-				<FilterField label="Min. Rent" />
-				<FilterField label="Max. Rent" />
+				<FilterField labelText="Avaliable Start" type="date" />
+				<FilterField labelText="Avaliable Until" type="date" />
+				<FilterField labelText="Min. Rent" onChange={(e) => setFilterMinRent(e.target.value)} />
+				<FilterField labelText="Max. Rent" onChange={(e) => setFilterMaxRent(e.target.value)} />
 				<FilterSelect label="Pet Friendly" />
 				<FilterSelect label="Smoke Friendly" />
 				<FilterSelect label="Guest Friendly" />

@@ -1,5 +1,6 @@
 import { SetStateAction } from "react";
 import { UserState } from "../state-management/reducers/UserReducer";
+import { AxiosResponse } from "axios";
 
 export interface ListingCardData {
 	id: number;
@@ -50,6 +51,7 @@ export interface ArrayStateHandlers<T> {
 	Delete?: (index: number, data: T) => void;
 	Update?: (index: number, newState: T) => void;
 	Set?: (state: T[]) => void;
+	Filter?: (query: object) => void;
 }
 
 export interface ListingContext {

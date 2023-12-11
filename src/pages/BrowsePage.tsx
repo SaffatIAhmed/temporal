@@ -17,9 +17,16 @@ const AllListingContext = createContext<ListingContext>({
 function BrowsePage() {
 	const { id } = useContext(UserContext);
 	const [allListings, setAllListings] = useState<ListingCardData[]>([]);
+	const [query, setQuery] = useState({});
 	useEffect(() => {
+		let queryString = "";
+		if (query) {
+			for (const [k, v] of Object.entries(query)) {
+				queryString += `${k}=${v}&`
+			}
+		}
 		axios
-			.get(`http://localhost:3000/listings`, { withCredentials: true })
+			.get(`http://localhost:3000/listings?${queryString}`, { withCredentials: true })
 			.then(result => {
 				const fetchedListings: ListingCardData[] = result.data;
 				setAllListings(fetchedListings);
@@ -57,18 +64,24 @@ function BrowsePage() {
 			.catch(error => {
 				console.log(error);
 			});
-	}, [id]);
+	}, [id, query]);
 
 	const canEditDelete = (user: UserState, listing: ListingCardData) =>
 		user.role === "moderator" || user.id === listing.postedBy;
 	const canSaveCheckout = (user: UserState, listing: ListingCardData) =>
 		user.role === "user" && user.id !== listing.postedBy;
 
+	const onQueryChanged = (query: object) => {
+		setQuery(query);
+	}
+
 	return (
 		<AllListingContext.Provider
 			value={{
 				state: allListings,
-				handlers: {},
+				handlers: {
+					Filter: onQueryChanged
+				},
 				canEdit: canEditDelete,
 				canDelete: canEditDelete,
 				canSave: canSaveCheckout,
