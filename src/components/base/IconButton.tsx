@@ -12,7 +12,7 @@ function IconButton(props: IconButtonProps) {
 			style={{
 				width: 40,
 				height: 40,
-				color: "#212529",
+				color: "#154734",
 			}}
 		>
 			{props.children}

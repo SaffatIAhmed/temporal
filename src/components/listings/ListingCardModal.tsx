@@ -1,5 +1,5 @@
 import { Row, Col, Modal, Carousel, Image, Placeholder } from "react-bootstrap";
-import { CartFill, Star } from "react-bootstrap-icons";
+import { CartFill, Star, StarFill } from "react-bootstrap-icons";
 import { ListingCardData, ListingContext } from "../../utils/Interfaces";
 import CheckoutModal from "./CheckoutModal";
 import ThemeButton from "../base/ThemedButton";
@@ -18,36 +18,44 @@ function ListingCardModal(props: ListingCardModalProps) {
 	const { state, handlers } = useContext<ListingContext>(props.context);
 	const [imgLoading, setImgLoading] = useState(true);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-	//const picID = Number(state[props.index]._id.substring(0,2));
-	const picID = state[props.index].rent % 1000;
+
+	const picID = (state[props.index].rent * 10) % 1000;
 
 	const checkoutApartment = async (index: number) => {
 		try {
-			await axios.delete(`http://localhost:3000/listings/${index}`, { withCredentials: true });
+			await axios.delete(`http://localhost:3000/listings/${index}`, {
+				withCredentials: true,
+			});
 			setIsCheckoutModalOpen(false);
 			if (handlers.Set) {
-				handlers.Set(state.filter((_elem, index) => index !== props.index));
+				handlers.Set(
+					state.filter((_elem, index) => index !== props.index)
+				);
 			}
 		} catch (err) {
 			console.log(err);
 		}
-	}
-
-	// function convertBoolean(input?: boolean) {
-	// 	return (input ? "Yes" : "No");
-	// }
+	};
 
 	function convertDate(input: string) {
 		const curDate = new Date(input);
 
-		return curDate.getMonth() + "/" + curDate.getDate() + "/" + curDate.getFullYear();
+		return (
+			curDate.getMonth() +
+			"/" +
+			curDate.getDate() +
+			"/" +
+			curDate.getFullYear()
+		);
 	}
 
 	return (
 		<>
 			<Modal show={props.showModal} onHide={props.handleClose} size="lg">
 				<Modal.Header closeButton>
-					<Modal.Title style={{ marginBlock: -8, fontWeight: "bold" }}>
+					<Modal.Title
+						style={{ marginBlock: -8, fontWeight: "bold" }}
+					>
 						{state[props.index].street +
 							", " +
 							state[props.index].city +
@@ -80,15 +88,17 @@ function ListingCardModal(props: ListingCardModalProps) {
 							</Carousel.Item>
 							<Carousel.Item>
 								<Image
-									src={`https://picsum.photos/id/${picID + 1
-										}/640/360`}
+									src={`https://picsum.photos/id/${
+										picID + 1
+									}/640/360`}
 									rounded
 								/>
 							</Carousel.Item>
 							<Carousel.Item>
 								<Image
-									src={`https://picsum.photos/id/${picID + 2
-										}/640/360`}
+									src={`https://picsum.photos/id/${
+										picID + 2
+									}/640/360`}
 									rounded
 								/>
 							</Carousel.Item>
@@ -100,23 +110,31 @@ function ListingCardModal(props: ListingCardModalProps) {
 								gap: 32,
 							}}
 						>
-
 							<ThemeButton
-								icon={<Star size={24} />}
+								icon={
+									state[props.index].isSaved ? (
+										<StarFill size={24} />
+									) : (
+										<Star size={24} />
+									)
+								}
 								onClick={function (): {} {
-									throw new Error("Function not implemented.");
+									throw new Error(
+										"Function not implemented."
+									);
 								}}
 							>
-								Save
+								{state[props.index].isSaved ? "Save" : "Unsave"}
 							</ThemeButton>
-
 							<ThemeButton
 								icon={<CartFill size={24} />}
-								onClick={() => {
-									setIsCheckoutModalOpen(true);
+								onClick={function (): {} {
+									throw new Error(
+										"Function not implemented."
+									);
 								}}
 							>
-								Make Payment
+								Checkout
 							</ThemeButton>
 						</div>
 						<Row style={{ width: "100%" }}>
@@ -133,21 +151,23 @@ function ListingCardModal(props: ListingCardModalProps) {
 								>
 									<div>Rent:</div>
 									<div>${state[props.index].rent}</div>
-									<div>Utilities: </div>
+									<div>Utilities:</div>
 									<div>${state[props.index].utilities}</div>
-									<div>Bedrooms: </div>
+									<div>Bedrooms:</div>
 									<div>{state[props.index].bedrooms}</div>
-									<div>Bathrooms: </div>
+									<div>Bathrooms:</div>
 									<div>{state[props.index].bedrooms}</div>
-									<div>Preferred Gender: </div>
+									<div>Private:</div>
+									<div>
+										{state[props.index].isPrivateRoom
+											? "Yes"
+											: "No"}
+									</div>
+									<div>Preferred: </div>
 									<div>{state[props.index].prefGender}</div>
-									<div>Start Date:</div>
-									<div>{convertDate(state[props.index].moveInDate)}</div>
-									<div>End Date:</div>
-									<div>{convertDate(state[props.index].moveOutDate)}</div>
-								</div >
-							</Col >
-							{/* <Col>
+								</div>
+							</Col>
+							<Col>
 								<div>
 									<b>Amenities</b>
 									<hr style={{ marginBlock: 8 }} />
@@ -156,19 +176,33 @@ function ListingCardModal(props: ListingCardModalProps) {
 											marginTop: 12,
 										}}
 									>
-										<li>Heating & Cooling: {convertBoolean(state[props.index].heatingCooling)}</li>
-										<li>Laundry & Dryer: {convertBoolean(state[props.index].laundryDryer)}</li>
-										<li>Internet: {convertBoolean(state[props.index].internet)}</li>
-										<li>Car Parking: {convertBoolean(state[props.index].carParking)}</li>
-										<li>TV: {convertBoolean(state[props.index].tv)}</li>
-										<li>Gym: {convertBoolean(state[props.index].gym)}</li>
-										<li>Pool: {convertBoolean(state[props.index].pool)}</li>
-										<li>Patio: {convertBoolean(state[props.index].patio)}</li>
-										<li>Bathtub: {convertBoolean(state[props.index].bath)}</li>
-									</ul >
-								</div >
-							</Col > */}
-							{/* <Col>
+										{state[props.index].heatingCooling && (
+											<li>Heating/Cooling</li>
+										)}
+										{state[props.index].laundryDryer && (
+											<li>Laundry/Dryer</li>
+										)}
+										{state[props.index].internet && (
+											<li>Heating/Cooling</li>
+										)}
+										{state[props.index].carParking && (
+											<li>Car Parking</li>
+										)}
+										{state[props.index].tv && <li>TV</li>}
+										{state[props.index].gym && <li>Gym</li>}
+										{state[props.index].pool && (
+											<li>Pool</li>
+										)}
+										{state[props.index].patio && (
+											<li>Patio</li>
+										)}
+										{state[props.index].bath && (
+											<li>Bath</li>
+										)}
+									</ul>
+								</div>
+							</Col>
+							<Col>
 								<b>Policies</b>
 								<hr style={{ marginBlock: 8 }} />
 								<div
@@ -179,22 +213,66 @@ function ListingCardModal(props: ListingCardModalProps) {
 										gap: "6px 0px",
 									}}
 								>
-									<div>Pets Allowed?:</div>
-									<div>{convertBoolean(state[props.index].allowedPets)}</div>
-									<div>Smoking Allowed?</div>
-									<div>{convertBoolean(state[props.index].allowedSmoking)}</div>
-									<div>Guests Allowed?</div>
-									<div>{convertBoolean(state[props.index].allowedGuests)}</div>
-									<div>Quiet Hours Start:</div>
-									<div>{state[props.index].quietHoursStart}</div>
-									<div>Quiet Hours Until:</div>
-									<div>{state[props.index].quietHoursEnd}</div>
-								</div >
-							</Col > */}
-						</Row >
-					</div >
-				</Modal.Body >
-			</Modal >
+									<div>Move In</div>
+									<div>
+										{state[
+											props.index
+										].moveInDate.substring(0, 10)}
+									</div>
+									<div>Move Out</div>
+									<div>
+										{state[
+											props.index
+										].moveOutDate.substring(0, 10)}
+									</div>
+									<div>Pet Friendly:</div>
+									<div>
+										{state[props.index].allowedPets
+											? "Yes"
+											: "No"}
+									</div>
+									<div>Smoking:</div>
+									<div>
+										{state[props.index].allowedSmoking
+											? "Yes"
+											: "No"}
+									</div>
+									<div>Guests:</div>
+									<div>
+										{state[props.index].allowedGuests
+											? "Yes"
+											: "No"}
+									</div>
+									<div>Quiet Hours:</div>
+									{state[props.index].quietHoursStart &&
+										state[props.index].quietHoursEnd && (
+											<>
+												<div>
+													{state[
+														props.index
+													].quietHoursStart?.substring(
+														0,
+														5
+													) + " until"}
+												</div>
+												<div></div>
+												<div>
+													{state[
+														props.index
+													].quietHoursEnd?.substring(
+														0,
+														5
+													)}
+												</div>
+											</>
+										)}
+								</div>
+							</Col>
+						</Row>
+					</div>
+				</Modal.Body>
+			</Modal>
+
 			<CheckoutModal
 				context={props.context}
 				data={state[props.index]}
