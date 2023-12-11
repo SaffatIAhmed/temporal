@@ -1,19 +1,19 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
 import {
 	CartFill,
-	Pencil,
+	PencilFill,
 	Star,
 	StarFill,
-	Trash2Fill,
+	TrashFill,
 } from "react-bootstrap-icons";
 import { ListingCardData, ListingContext } from "../../utils/Interfaces";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import ListingCardModal from "./ListingCardModal";
 import CheckoutModal from "./CheckoutModal";
 import IconButton from "../base/IconButton";
-import ThemeButton from "../base/ThemedButton";
 import DeleteModel from "./DeleteModal";
 import CreateListingModal from "./CreateListingModal";
+import axios from "axios";
 import { UserContext } from "../../state-management/contexts/UserContext";
 
 interface ListingCardProps {
@@ -27,15 +27,17 @@ interface ListingCardProps {
 }
 
 function ListingCard(props: ListingCardProps) {
-	const { canEdit, canDelete, canSave, canCheckout } = props;
 	const [imgLoading, setImgLoading] = useState(true);
+	const [isSaved, setIsSaved] = useState(props.data.isSaved);
+
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-	const [isCreateListingModelOpen, setCreateListingModalOpen] =
-		useState(false);
-	const [permissions, setPermissions] = useState(false);
+	const [isCreateModelOpen, setCreateModalOpen] = useState(false);
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-	const picID = props.data.rent % 1000;
+
+	const { id: userId } = useContext(UserContext);
+
+	const picID = (props.data.id * 10) % 1000;
 
 	return (
 		<>
@@ -77,65 +79,69 @@ function ListingCard(props: ListingCardProps) {
 							</div>
 						</Col>
 						<Col sm={2} style={{ cursor: "default" }}>
-							{canSave && (
-								<IconButton>
-									{props.data.isSaved ? (
+							{props.canSave && (
+								<IconButton
+									onClick={e => {
+										e.stopPropagation();
+										if (userId) {
+											axios
+												.put(
+													`http://localhost:3000/users/${userId}/save`,
+													{
+														lid: 5, //props.data.id,
+														save: true, //!isSaved,
+													},
+													{ withCredentials: true }
+												)
+												.then(res => {
+													setIsSaved(!isSaved);
+													console.log(res);
+												});
+										}
+									}}
+								>
+									{isSaved ? (
 										<StarFill size={24} />
 									) : (
 										<Star size={24} />
 									)}
 								</IconButton>
 							)}
-							{canCheckout && (
-								<IconButton>
+							{props.canCheckout && (
+								<IconButton
+									onClick={e => {
+										e.stopPropagation();
+										setIsCheckoutModalOpen(true);
+									}}
+								>
 									<CartFill size={24} />
 								</IconButton>
 							)}
-							{canEdit && (
-								<IconButton>
-									<Pencil size={24} />
+							{props.canEdit && (
+								<IconButton
+									onClick={e => {
+										e.stopPropagation();
+										setCreateModalOpen(true);
+									}}
+								>
+									<PencilFill size={24} />
 								</IconButton>
 							)}
-							{canDelete && (
-								<IconButton>
-									<Trash2Fill size={24} />
+							{props.canDelete && (
+								<IconButton
+									onClick={e => {
+										e.stopPropagation();
+										setIsDeleteModalOpen(true);
+									}}
+								>
+									<TrashFill size={24} />
 								</IconButton>
 							)}
 						</Col>
 					</Row>
-					<Row>
-						<div
-							style={{
-								marginTop: 20,
-								display: "flex",
-								gap: 32,
-								alignContent: "center",
-							}}
-						>
-							<ThemeButton
-								permissions={permissions}
-								icon={<Pencil size={24} />}
-								onClick={function (): {} {
-									setCreateListingModalOpen(true);
-									return {};
-								}}
-							>
-								Edit
-							</ThemeButton>
-							<ThemeButton
-								permissions={permissions}
-								icon={<Trash2Fill size={24} />}
-								onClick={() => {
-									setIsDeleteModalOpen(true);
-									return {};
-								}}
-							>
-								Delete
-							</ThemeButton>
-						</div>
-					</Row>
 				</Card.Body>
 			</Card>
+
 			<ListingCardModal
 				index={props.index}
 				context={props.context}
@@ -149,15 +155,15 @@ function ListingCard(props: ListingCardProps) {
 				showModal={isCheckoutModalOpen}
 				handleClose={() => setIsCheckoutModalOpen(false)}
 			/>
+			<CreateListingModal
+				data={props.data}
+				showModal={isCreateModelOpen}
+				handleClose={() => setCreateModalOpen(false)}
+			/>
 			<DeleteModel
 				data={props.data}
 				showModal={isDeleteModalOpen}
 				handleClose={() => setIsDeleteModalOpen(false)}
-			/>
-			<CreateListingModal
-				data={props.data}
-				showModal={isCreateListingModelOpen}
-				handleClose={() => setCreateListingModalOpen(false)}
 			/>
 		</>
 	);
